@@ -12,12 +12,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private Button buttonConvert;
+    private EditText inputToConvert;
+    private TextView convertedText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -27,6 +35,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+        });
+
+        buttonConvert = (Button) findViewById(R.id.conversion_button);
+        inputToConvert = (EditText) findViewById(R.id.input_editText);
+        convertedText = (TextView) findViewById(R.id.converted_text);
+
+        buttonConvert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ConversionAsyncTask task = new ConversionAsyncTask();
+
+                task.setConversionListener(new ConversionAsyncTask.ConversionListener() {
+                    @Override
+                    public void onConversionCallback(String response) {
+                        convertedText.setText(response);
+                    }
+                });
+                String searchTerm = inputToConvert.getText().toString();
+                task.execute(searchTerm);
             }
         });
 
