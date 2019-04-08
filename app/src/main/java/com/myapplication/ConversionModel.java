@@ -1,14 +1,17 @@
 package com.myapplication;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ConversionModel {
     private String input;
-    private String output;
+    private List<String> output = new ArrayList<String>();
 
-    public String getOutput() {
+    public List<String> getOutput() {
         return output;
     }
 
-    public void setOutput(String output) {
+    public void setOutput(List<String> output) {
         this.output = output;
     }
 

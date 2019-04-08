@@ -10,8 +10,16 @@ public class ConversionAsyncTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         String searchTerm = params[0];
 
+        /******************************************************************
+        / Get serialized version of morse.json into string format to pass /
+        / as a parameter for the getMorse function.                       /
+        /******************************************************************/
+
         if(searchTerm != null) {
-            String response = MorseParser.get_json();
+            ConversionModel model = MorseParser.getMorse("morse",searchTerm);
+            String response = "";
+            for(int i = 0; i < model.getOutput().size(); i++)
+                response += model.getOutput().get(i);
             return "Morse: " + response;
         }
 
