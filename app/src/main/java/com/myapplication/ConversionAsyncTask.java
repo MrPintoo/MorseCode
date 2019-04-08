@@ -11,7 +11,8 @@ public class ConversionAsyncTask extends AsyncTask<String, Void, String> {
         String searchTerm = params[0];
 
         if(searchTerm != null) {
-            return "Morse: " + searchTerm;
+            String response = MorseParser.get_json();
+            return "Morse: " + response;
         }
 
         return "Search Failed";
