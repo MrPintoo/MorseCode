@@ -13,19 +13,17 @@ import okhttp3.Response;
 public class API {
 
     private static final String TAG = "RecipeSearchHelper";
-    private static final String baseApiUrl = "http://myjson.com/18ukd0";
+    private static final String baseApiUrl = "https://api.myjson.com/bins/18p7gk";
 
-    public static String httpCall(String input) throws IOException {
+    public static String httpCall() throws IOException {
 
         OkHttpClient client = new OkHttpClient();
 
         HttpUrl.Builder builder = HttpUrl.parse(baseApiUrl).newBuilder();
 
-        builder.addQueryParameter("q",input);
-
         String url = builder.build().toString();
 
-        Request request = new Request().url(url).build();
+        Request request = new Request.Builder().url(url).build();
 
         try {
             // ask the server for a response
@@ -40,26 +38,5 @@ public class API {
             Log.e(TAG, "searchRecipes: ", e);
         }
         return null;
-
-//         given
-//        HttpGet request = new HttpGet("https://api.myjson.com/bins/18ukd0");
-//        request.add("Accept", "application/json");
-//        request.add("Accept-Language", "en-US");
-//        request.add("Accept-Charset", "US-ASCII");
-//
-//
-//        // when
-//        HttpResponse response = HttpClientBuilder.create().build().execute(request);
-//
-//        // then
-//        HttpEntity entity = response.getEntity();
-//        String jsonString = EntityUtils.toString(entity);
-//
-//        // and if the response is
-//        // {
-//        //     "status": "OK"
-//        // }
-//        // Then we can assert it with
-//        assertThat(jsonString, hasJsonPath("$.status", is("OK")));
     }
 }
