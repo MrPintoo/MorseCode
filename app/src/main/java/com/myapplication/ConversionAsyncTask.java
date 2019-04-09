@@ -2,6 +2,10 @@ package com.myapplication;
 
 import android.os.AsyncTask;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+
 public class ConversionAsyncTask extends AsyncTask<String, Void, String> {
 
     private ConversionListener conversion;
@@ -10,19 +14,15 @@ public class ConversionAsyncTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         String searchTerm = params[0];
 
-        /******************************************************************
-        / Get serialized version of morse.json into string format to pass /
-        / as a parameter for the getMorse function.                       /
-        /******************************************************************/
-
-        if(searchTerm != null) {
-            ConversionModel model = MorseParser.getMorse("morse",searchTerm);
-            String response = "";
-            for(int i = 0; i < model.getOutput().size(); i++)
-                response += model.getOutput().get(i);
-            return "Morse: " + response;
+        try {
+            String json = API.httpCall();
+            if(searchTerm != null) {
+                String result = MorseParser.getMorse(json, searchTerm);
+                return result;
+            }
+        } catch(IOException e) {
+            e.printStackTrace();
         }
-
         return "Search Failed";
     }
 
