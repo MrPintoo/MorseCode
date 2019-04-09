@@ -1,3 +1,5 @@
+// found on github, outline for how we access the camera 
+
 package com.myapplication;
 
 import android.annotation.TargetApi;
