@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="textToMorseAPI">https://api.myjson.com/bins/1g3r7s</string>
+    <string name="morseToTextAPI">https://api.myjson.com/bins/1bzv54</string>
+</resources>
