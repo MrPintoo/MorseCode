@@ -1,29 +1,27 @@
-package com.myapplication;
+package com.myapplication.networks;
 
 import android.os.AsyncTask;
 
+import com.myapplication.utilities.MorseParser;
+
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.IOException;
-
-public class ConversionAsyncTask extends AsyncTask<String, Void, String> {
+public class TextToMorseAsyncTask extends AsyncTask<String, Void, String> {
 
     private ConversionListener conversion;
 
     @Override
     protected String doInBackground(String... params) {
         String searchTerm = params[0];
+        String json = params[1];
 
-        try {
-            String json = API.httpCall();
-            if(searchTerm != null) {
-                String result = MorseParser.getMorse(json, searchTerm);
-                return result;
-            }
-        } catch(IOException e) {
-            e.printStackTrace();
+        if (searchTerm != null) {
+            String result = MorseParser.translate(json, searchTerm);
+            return result;
         }
-        return "Search Failed";
+        return "Search Failed!";
     }
 
     @Override

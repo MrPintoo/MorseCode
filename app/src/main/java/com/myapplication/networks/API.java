@@ -1,4 +1,4 @@
-package com.myapplication;
+package com.myapplication.networks;
 // request MorseCode API
 
 import android.util.Log;
@@ -12,10 +12,10 @@ import okhttp3.Response;
 
 public class API {
 
-    private static final String TAG = "RecipeSearchHelper";
-    private static final String baseApiUrl = "https://api.myjson.com/bins/18p7gk";
+    private static final String TAG = "HTTPCall";
+//    private static final String baseApiUrl = "https://api.myjson.com/bins/18p7gk";
 
-    public static String httpCall() throws IOException {
+    public static String httpCall(String baseApiUrl) throws IOException {
 
         OkHttpClient client = new OkHttpClient();
 
@@ -35,7 +35,7 @@ public class API {
             }
         } catch (IOException e) {
             // log the error to the console window (logcat)
-            Log.e(TAG, "searchRecipes: ", e);
+            Log.e(TAG, "searchJSON: ", e);
         }
         return null;
     }
