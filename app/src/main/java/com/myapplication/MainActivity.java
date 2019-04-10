@@ -16,11 +16,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.myapplication.models.ConversionModel;
+import com.myapplication.networks.HTTPAsyncTask;
+import com.myapplication.networks.TextToMorseAsyncTask;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Button buttonConvert;
+    private Button toMorseButton;
+    private Button toTextButton;
     private EditText inputToConvert;
     private TextView convertedText;
+
+    ConversionModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +37,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
+        /************************************************/
+        /** Retrieve text_to_morse JSON with HTTP call **/
+        HTTPAsyncTask task = new HTTPAsyncTask();
+        task.setHTTPListener(new HTTPAsyncTask.HTTPListener() {
+            @Override
+            public void onHTTPCallback(ConversionModel response) {
+                model = response;
+            }
+        });
+        task.execute(getString(R.string.textToMorseAPI), getString(R.string.morseToTextAPI));
+        /************************************************/
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,25 +59,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        buttonConvert = (Button) findViewById(R.id.conversion_button);
+        /*********************************************************************************/
+        /**                          TextToMorse Conversion Process                     **/
+        toMorseButton = (Button) findViewById(R.id.to_morse_button);
         inputToConvert = (EditText) findViewById(R.id.input_editText);
         convertedText = (TextView) findViewById(R.id.converted_text);
+        toTextButton = (Button) findViewById(R.id.to_text_button);
 
-        buttonConvert.setOnClickListener(new View.OnClickListener() {
+        toMorseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ConversionAsyncTask task = new ConversionAsyncTask();
-
-                task.setConversionListener(new ConversionAsyncTask.ConversionListener() {
+                TextToMorseAsyncTask task = new TextToMorseAsyncTask();
+                task.setConversionListener(new TextToMorseAsyncTask.ConversionListener() {
                     @Override
                     public void onConversionCallback(String response) {
-                        convertedText.setText(response);
+                        model.setOutput(response);
+                        convertedText.setText(model.getOutput());
                     }
                 });
-                String searchTerm = inputToConvert.getText().toString();
-                task.execute(searchTerm);
+                model.setInput(inputToConvert.getText().toString());
+                task.execute(model.getInput(), model.getTextToMorseURL());
             }
         });
+
+        toTextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextToMorseAsyncTask task = new TextToMorseAsyncTask();
+                task.setConversionListener(new TextToMorseAsyncTask.ConversionListener() {
+                    @Override
+                    public void onConversionCallback(String response) {
+                        model.setOutput(response);
+                        convertedText.setText(model.getOutput());
+                    }
+                });
+                model.setInput(inputToConvert.getText().toString());
+                task.execute(model.getInput(), model.getMorseToTextURL());
+            }
+        });
+
+        /************************************************************************************/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
