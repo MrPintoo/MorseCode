@@ -1,5 +1,9 @@
 package com.myapplication;
 
+import android.content.Context;
+import android.graphics.Camera;
+import android.hardware.camera2.CameraManager;
+
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,6 +23,9 @@ import android.widget.TextView;
 import com.myapplication.models.ConversionModel;
 import com.myapplication.networks.HTTPAsyncTask;
 import com.myapplication.networks.TextToMorseAsyncTask;
+
+import java.security.Policy;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -109,6 +116,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
+
+
+
+
+    toMorseButton.setOnCLickListener(new View.OnClickListener()){
+        @Override
+        public onClick(view f){
+            TextToMorseAsyncTask = new TextToMorseAsyncTask();
+            task.setConvrtsionListener(new TextToMorseAsyncTask.ConversionListener(){
+                @Override
+                public void onConversionCallBack(String response){
+                    model.setOutput(response);
+                    convertedeText.setText(model.getOutput())
+                    /** Flash **/
+                    flash.flash
+                }
+            })
+        }
+    }
+
+
+    private Camera mCamera;
+
+    /** switches the flashlight from on or off **/
+    public void flashlight(boolean on) {
+        Policy.Parameters p = mCamera.
+        if (on) {
+
+            if (!p.getFlashMode().equals(android.hardware.Camera.Parameters.FLASH_MODE_TORCH)) {
+                p.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_TORCH);
+                mCamera.setParameters(p);
+            }
+        } else {
+            if (p.getFlashMode().equals(android.hardware.Camera.Parameters.FLASH_MODE_TORCH)) {
+                p.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_OFF);
+                mCamera.setParameters(p);
+            }
+        }
+   }
+
+
 
     @Override
     public void onBackPressed() {
