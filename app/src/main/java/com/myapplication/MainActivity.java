@@ -1,12 +1,15 @@
 package com.myapplication;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Camera;
 import android.hardware.camera2.CameraManager;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -41,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
@@ -58,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         task.execute(getString(R.string.textToMorseAPI), getString(R.string.morseToTextAPI));
         /************************************************/
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,10 +71,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         /*********************************************************************************/
         /**                          TextToMorse Conversion Process                     **/
-        toMorseButton = (Button) findViewById(R.id.to_morse_button);
-        inputToConvert = (EditText) findViewById(R.id.input_editText);
-        convertedText = (TextView) findViewById(R.id.converted_text);
-        toTextButton = (Button) findViewById(R.id.to_text_button);
+        toMorseButton = findViewById(R.id.to_morse_button);
+        inputToConvert = findViewById(R.id.input_editText);
+        convertedText = findViewById(R.id.converted_text);
+        toTextButton = findViewById(R.id.to_text_button);
 
         toMorseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,61 +110,109 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         /************************************************************************************/
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    /*********************************************************************************/
+    /**                          Flashlight                                         **/
 
+    //turn on
+    camera = Camera.open()
+    Policy.Parameters p = camera.getParameters();
+	p.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_TORCH)
+	camera.setParameters(p)
+	camera.startPreview()
 
+    //turn off
+    camera = Camera.open()
+    Policy.Parameters p = camera.getParameters();
+	p.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_OFF)
+	camera.setParameters(p)
+	camera.stopPreview()
 
+    public class FlashLightActivity extends Activity {
 
-    toMorseButton.setOnCLickListener(new View.OnClickListener()){
+        //flag to detect flash is on or off
+        private boolean isLighOn = false;
+
+        private Camera camera;
+
+        private Button button;
+
         @Override
-        public onClick(view f){
-            TextToMorseAsyncTask = new TextToMorseAsyncTask();
-            task.setConvrtsionListener(new TextToMorseAsyncTask.ConversionListener(){
+        protected void onStop() {
+            super.onStop();
+
+            if (camera != null) {
+                camera.release();
+            }
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.main);
+
+            button = (Button) findViewById(R.id.buttonFlashlight);
+
+            Context context = this;
+            PackageManager pm = context.getPackageManager();
+
+            // if device support camera?
+            if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+                Log.e("err", "Device has no camera!");
+                return;
+            }
+
+            camera = Camera.open();
+            final Policy.Parameters p = camera.getParameters();
+
+            button.setOnClickListener(new View.OnClickListener() {
+
                 @Override
-                public void onConversionCallBack(String response){
-                    model.setOutput(response);
-                    convertedeText.setText(model.getOutput())
-                    /** Flash **/
-                    flash.flash
+                public void onClick(View arg0) {
+
+                    if (isLighOn) {
+
+                        Log.i("info", "torch is turn off!");
+
+                        p.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_OFF);
+                        camera.setParameters(p);
+                        camera.stopPreview();
+                        isLighOn = false;
+
+                    } else {
+
+                        Log.i("info", "torch is turn on!");
+
+                        p.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_TORCH);
+
+                        camera.setParameters(p);
+                        camera.startPreview();
+                        isLighOn = true;
+
+                    }
+
                 }
-            })
+            });
+
         }
     }
 
 
-    private Camera mCamera;
-
-    /** switches the flashlight from on or off **/
-    public void flashlight(boolean on) {
-        Policy.Parameters p = mCamera.
-        if (on) {
-
-            if (!p.getFlashMode().equals(android.hardware.Camera.Parameters.FLASH_MODE_TORCH)) {
-                p.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_TORCH);
-                mCamera.setParameters(p);
-            }
-        } else {
-            if (p.getFlashMode().equals(android.hardware.Camera.Parameters.FLASH_MODE_TORCH)) {
-                p.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_OFF);
-                mCamera.setParameters(p);
-            }
-        }
-   }
-
+    /************************************************************************************/
 
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -211,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
