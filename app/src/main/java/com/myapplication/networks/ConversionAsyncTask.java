@@ -1,6 +1,7 @@
 package com.myapplication.networks;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.myapplication.utilities.MorseParser;
 
@@ -8,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class TextToMorseAsyncTask extends AsyncTask<String, Void, String> {
+public class ConversionAsyncTask extends AsyncTask<String, Void, String> {
 
     private ConversionListener conversion;
 
@@ -21,7 +22,7 @@ public class TextToMorseAsyncTask extends AsyncTask<String, Void, String> {
             String result = MorseParser.translate(json, searchTerm);
             return result;
         }
-        return "Search Failed!";
+        return "ConversionAsyncTask: Error in resolving search term";
     }
 
     @Override
