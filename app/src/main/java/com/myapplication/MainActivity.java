@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
 //                            Log.e("vibrated", "createOneShot");
 //                        }
-//                        else {
+//                         else {
 //                            vibrator.vibrate(500);
 //                            Log.e("vibrated", "else statement");
 //                        }
