@@ -80,8 +80,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toTextButton = (Button) findViewById(R.id.to_text_button);
         toVibrate = (Button) findViewById(R.id.vibrate_btn);
 
-//        vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-//        final long[] pattern = {2000, 1000};
 
         toMorseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,19 +90,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     public void onConversionCallback(String response) {
                         model.setOutput(response);
                         convertedText.setText(model.getOutput());
-
-//                        /** Vibration */
-//                        vibrator.vibrate(pattern, -1);
-//
-//                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
-//                            Log.e("vibrated", "createOneShot");
-//                        }
-//                         else {
-//                            vibrator.vibrate(500);
-//                            Log.e("vibrated", "else statement");
-//                        }
-//                        /**************/
 
                     }
                 });
@@ -157,94 +142,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    /*********************************************************************************/
-    /**                          Flashlight                                         **/
-
-    //turn on
-    camera = Camera.open()
-    Policy.Parameters p = camera.getParameters();
-	p.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_TORCH)
-	camera.setParameters(p)
-	camera.startPreview()
-
-    //turn off
-    camera = Camera.open()
-    Policy.Parameters p = camera.getParameters();
-	p.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_OFF)
-	camera.setParameters(p)
-	camera.stopPreview()
-
-    public class FlashLightActivity extends Activity {
-
-        //flag to detect flash is on or off
-        private boolean isLighOn = false;
-
-        private Camera camera;
-
-        private Button button;
-
-        @Override
-        protected void onStop() {
-            super.onStop();
-
-            if (camera != null) {
-                camera.release();
-            }
-        }
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.main);
-
-            button = (Button) findViewById(R.id.buttonFlashlight);
-
-            Context context = this;
-            PackageManager pm = context.getPackageManager();
-
-            // if device support camera?
-            if (!pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-                Log.e("err", "Device has no camera!");
-                return;
-            }
-
-            camera = Camera.open();
-            final Policy.Parameters p = camera.getParameters();
-
-            button.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View arg0) {
-
-                    if (isLighOn) {
-
-                        Log.i("info", "torch is turn off!");
-
-                        p.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_OFF);
-                        camera.setParameters(p);
-                        camera.stopPreview();
-                        isLighOn = false;
-
-                    } else {
-
-                        Log.i("info", "torch is turn on!");
-
-                        p.setFlashMode(android.hardware.Camera.Parameters.FLASH_MODE_TORCH);
-
-                        camera.setParameters(p);
-                        camera.startPreview();
-                        isLighOn = true;
-
-                    }
-
-                }
-            });
-
-        }
-    }
-
-
-    /************************************************************************************/
 
 
     @Override
