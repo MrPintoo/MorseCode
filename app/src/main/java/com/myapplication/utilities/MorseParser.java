@@ -29,7 +29,7 @@ public class MorseParser {
                 return result;
             }
         } catch(JSONException e){
-                Log.e(TAG, "getMorse: error parsing JSON", e);
+                Log.e(TAG, "translate: error parsing JSON", e);
         }
         return "Failed!.";
     }
@@ -47,7 +47,7 @@ public class MorseParser {
             }
             return morse;
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG, "getMorse: error parsing JSON");
         }
         return "Failed!";
     }
@@ -76,7 +76,7 @@ public class MorseParser {
             }
             return result;
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG, "getText: error parsing JSON");
         }
         return "Failed!";
     }

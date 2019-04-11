@@ -4,7 +4,14 @@
 
     <!-- app permissions -->
     <uses-permission android:name="android.permission.INTERNET"/>
+<<<<<<< HEAD
+    <!-- Allows access to the flashlight -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+
+=======
     <uses-permission android:name="android.permission.VIBRATE" />
+>>>>>>> origin/master
 
     <application
         android:allowBackup="true"

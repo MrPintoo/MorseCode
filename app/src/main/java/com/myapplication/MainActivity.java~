@@ -73,6 +73,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         /*********************************************************************************/
+<<<<<<< HEAD
+        /**                          TextToMorse Conversion Process                     **/
+        toMorseButton = findViewById(R.id.to_morse_button);
+        inputToConvert = findViewById(R.id.input_editText);
+        convertedText = findViewById(R.id.converted_text);
+        toTextButton = findViewById(R.id.to_text_button);
+=======
         /**                               Conversion Process                            **/
         toMorseButton = (Button) findViewById(R.id.to_morse_button);
         inputToConvert = (EditText) findViewById(R.id.input_editText);
@@ -82,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 //        final long[] pattern = {2000, 1000};
+>>>>>>> origin/master
 
         toMorseButton.setOnClickListener(new View.OnClickListener() {
             @Override
