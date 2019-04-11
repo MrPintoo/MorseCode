@@ -3,7 +3,7 @@ package com.myapplication.utilities;
 import android.content.Context;
 import android.os.Vibrator;
 
-public class Vibration {
+public class  Vibration {
 
     private static Vibrator vibrator;
 

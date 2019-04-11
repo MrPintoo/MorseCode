@@ -22,6 +22,10 @@ import com.myapplication.networks.HTTPAsyncTask;
 import com.myapplication.networks.ConversionAsyncTask;
 import com.myapplication.utilities.Vibration;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -127,8 +131,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 task.setConversionListener(new ConversionAsyncTask.ConversionListener() {
                     @Override
                     public void onConversionCallback(String response) {
-                        vibration.vibrate(getBaseContext(),response);
-                        Log.e("Vibration", "onConversionCallback");
+                        try {
+                            vibration.vibrate(getBaseContext(), response);
+                        } catch(Exception e) {
+                            Log.e("Vibration", "onConversionCallback");
+                        }
                     }
                 });
                 model.setInput(inputToConvert.getText().toString());
