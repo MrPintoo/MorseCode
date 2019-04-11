@@ -1,8 +1,13 @@
 package com.myapplication;
 
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -27,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private EditText inputToConvert;
     private TextView convertedText;
 
+    private Vibrator vibrator;
+
     ConversionModel model;
 
     @Override
@@ -36,8 +43,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
 
         /************************************************/
         /** Retrieve text_to_morse JSON with HTTP call **/
@@ -66,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         convertedText = (TextView) findViewById(R.id.converted_text);
         toTextButton = (Button) findViewById(R.id.to_text_button);
 
+        vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+        final long[] pattern = {2000, 1000};
+
         toMorseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +83,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     public void onConversionCallback(String response) {
                         model.setOutput(response);
                         convertedText.setText(model.getOutput());
+
+                        /** Vibration */
+//                        vibrator.vibrate(pattern, -1);
+
+//                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                            vibrator.vibrate(VibrationEffect.createOneShot(500,VibrationEffect.DEFAULT_AMPLITUDE));
+//                        }
+//                        else {
+//                            vibrator.vibrate(500);
+//                        }
+                        /**************/
+
                     }
                 });
                 model.setInput(inputToConvert.getText().toString());
