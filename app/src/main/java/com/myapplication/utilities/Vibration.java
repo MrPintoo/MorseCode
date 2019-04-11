@@ -36,10 +36,4 @@ public class Vibration {
 
         vibrator.vibrate(textToVibrationPattern, -1);
     }
-
-
-    public static void shortVibration() { vibrator.vibrate(50); }
-    public static void longVibration() { vibrator.vibrate(2000); }
-    public static void pauseVibration() { vibrator.vibrate(0); }
-
 }
