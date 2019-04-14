@@ -7,10 +7,12 @@ import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,47 +21,29 @@ import android.widget.Toast;
 import com.myapplication.R;
 
 public class Flashlight extends AppCompatActivity {
-    private Button buttonEnable;
-    private ImageView imageFlashlight;
+
     private static final int CAMERA_REQUEST = 50;
     private boolean flashLightStatus = false;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        imageFlashlight = (ImageView) findViewById(R.id.imageFlashlight);
-        buttonEnable = (Button) findViewById(R.id.buttonEnable);
 
+    public void flash(String morse) {
         final boolean hasCameraFlash = getPackageManager().
                 hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
-        boolean isEnabled = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                == PackageManager.PERMISSION_GRANTED;
 
-        buttonEnable.setEnabled(!isEnabled);
-        imageFlashlight.setEnabled(isEnabled);
-        buttonEnable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ActivityCompat.requestPermissions(Flashlight.this, new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST);
-            }
-        });
-
-        imageFlashlight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (hasCameraFlash) {
-                    if (flashLightStatus)
-                        flashLightOff();
-                    else
-                        flashLightOn();
-                } else {
-                    Toast.makeText(Flashlight.this, "No flash available on your device",
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        if (hasCameraFlash) {
+            Log.d("Works", "Flashlight has flash");
+            if (flashLightStatus)
+                flashLightOff();
+            else
+                flashLightOn();
+        } else {
+            Toast.makeText(Flashlight.this, "No flash available on your device",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
+
+
+
 
     @TargetApi(23)
     private void flashLightOn() {
@@ -70,6 +54,7 @@ public class Flashlight extends AppCompatActivity {
             cameraManager.setTorchMode(cameraId, true);
             flashLightStatus = true;
         } catch (CameraAccessException e) {
+            e.getStackTrace();
         }
     }
 
@@ -82,7 +67,7 @@ public class Flashlight extends AppCompatActivity {
             cameraManager.setTorchMode(cameraId, false);
             flashLightStatus = false;
         } catch (CameraAccessException e) {
-            throw e.getReason();
+            e.getReason();
         }
     }
 
