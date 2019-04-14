@@ -12,17 +12,17 @@ public class Sound {
 
         for(int i = 0; i < morse.length(); i++){
             if(morse.charAt(i) == '.'){
-                soundLoop(mediaPlayer, noSound, 100);
+                soundLoop(mediaPlayer, noSound, 200);
             }
             else if(morse.charAt(i) == '-'){
-                soundLoop(mediaPlayer, noSound, 300);
+                soundLoop(mediaPlayer, noSound, 500);
 
             }
             else if(morse.charAt(i) == ' '){
-                soundLoopForSpace(mediaPlayer, noSound, 300);
+                soundLoopForSpace(noSound, 300);
             }
             else{
-                soundLoopForSpace(mediaPlayer, noSound, 700);
+                soundLoopForSpace(noSound, 700);
 
             }
         }
@@ -40,7 +40,7 @@ public class Sound {
         innerCharLoop(noSound);
     }
 
-    public static void soundLoopForSpace(MediaPlayer mediaPlayer, MediaPlayer noSound, int time){
+    public static void soundLoopForSpace(MediaPlayer noSound, int time){
         noSound.seekTo(0);
         noSound.start();
         while(true){

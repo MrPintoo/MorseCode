@@ -73,14 +73,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         /*********************************************************************************/
         /**                               Conversion Process                            **/
-        toMorseButton = (Button) findViewById(R.id.to_morse_button);
         inputToConvert = (EditText) findViewById(R.id.input_editText);
         convertedText = (TextView) findViewById(R.id.converted_text);
-        toTextButton = (Button) findViewById(R.id.to_text_button);
-        toVibrate = (Button) findViewById(R.id.vibrate_btn);
-        toSound = (Button) findViewById(R.id.sound_btn);
 
-
+        toMorseButton = (Button) findViewById(R.id.to_morse_button);
         toMorseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        toTextButton = (Button) findViewById(R.id.to_text_button);
         toTextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        toVibrate = (Button) findViewById(R.id.vibrate_btn);
         toVibrate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        toSound = (Button) findViewById(R.id.sound_btn);
         final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.beepsound);
         final MediaPlayer noSound = MediaPlayer.create(this, R.raw.nosound);
         toSound.setOnClickListener(new View.OnClickListener() {
