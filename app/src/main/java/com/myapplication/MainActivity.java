@@ -1,5 +1,7 @@
 package com.myapplication;
 
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,7 +22,12 @@ import android.widget.TextView;
 import com.myapplication.models.ConversionModel;
 import com.myapplication.networks.HTTPAsyncTask;
 import com.myapplication.networks.ConversionAsyncTask;
+import com.myapplication.utilities.Sound;
 import com.myapplication.utilities.Vibration;
+
+import org.json.JSONException;
+
+import java.io.IOException;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,12 +35,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Button toMorseButton;
     private Button toTextButton;
     private Button toVibrate;
+    private Button toSound;
     private EditText inputToConvert;
     private TextView convertedText;
 
     Vibration vibration;
-//    Vibrator vibrator;
     ConversionModel model;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,15 +73,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         /*********************************************************************************/
         /**                               Conversion Process                            **/
-        toMorseButton = (Button) findViewById(R.id.to_morse_button);
         inputToConvert = (EditText) findViewById(R.id.input_editText);
         convertedText = (TextView) findViewById(R.id.converted_text);
-        toTextButton = (Button) findViewById(R.id.to_text_button);
-        toVibrate = (Button) findViewById(R.id.vibrate_btn);
 
-//        vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-//        final long[] pattern = {2000, 1000};
-
+        toMorseButton = (Button) findViewById(R.id.to_morse_button);
         toMorseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,20 +86,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     public void onConversionCallback(String response) {
                         model.setOutput(response);
                         convertedText.setText(model.getOutput());
-
-//                        /** Vibration */
-//                        vibrator.vibrate(pattern, -1);
-//
-//                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
-//                            Log.e("vibrated", "createOneShot");
-//                        }
-//                         else {
-//                            vibrator.vibrate(500);
-//                            Log.e("vibrated", "else statement");
-//                        }
-//                        /**************/
-
                     }
                 });
                 model.setInput(inputToConvert.getText().toString());
@@ -104,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        toTextButton = (Button) findViewById(R.id.to_text_button);
         toTextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        toVibrate = (Button) findViewById(R.id.vibrate_btn);
         toVibrate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,14 +118,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 task.setConversionListener(new ConversionAsyncTask.ConversionListener() {
                     @Override
                     public void onConversionCallback(String response) {
-                        vibration.vibrate(getBaseContext(),response);
-                        Log.e("Vibration", "onConversionCallback");
+                        try {
+                            vibration.vibrate(getBaseContext(), response);
+                        } catch(Exception e) {
+                            Log.e("Vibration", "onConversionCallback");
+                        }
                     }
                 });
                 model.setInput(inputToConvert.getText().toString());
                 task.execute(model.getInput(),model.getTextToMorseURL());
             }
         });
+
+        toSound = (Button) findViewById(R.id.sound_btn);
+        final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.beepsound);
+        final MediaPlayer noSound = MediaPlayer.create(this, R.raw.nosound);
+        toSound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ConversionAsyncTask task = new ConversionAsyncTask();
+                task.setConversionListener(new ConversionAsyncTask.ConversionListener() {
+                    @Override
+                    public void onConversionCallback(String response) {
+                        try{
+                            Sound.sound(mediaPlayer, noSound, response);
+                        } catch (Exception e){
+                            Log.e("Sound", "onConversionCallback");
+                        }
+                    }
+                });
+                model.setInput(inputToConvert.getText().toString());
+                task.execute(model.getInput(), model.getTextToMorseURL());
+            }
+        });
+
+
 
         /************************************************************************************/
 

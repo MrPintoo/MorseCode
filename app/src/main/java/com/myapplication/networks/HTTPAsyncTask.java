@@ -27,7 +27,6 @@ public class HTTPAsyncTask extends AsyncTask<String, Void, ConversionModel> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 

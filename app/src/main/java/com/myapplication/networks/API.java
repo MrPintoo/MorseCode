@@ -12,8 +12,7 @@ import okhttp3.Response;
 
 public class API {
 
-    private static final String TAG = "HTTPCall";
-//    private static final String baseApiUrl = "https://api.myjson.com/bins/18p7gk";
+    private static final String TAG = "API";
 
     public static String httpCall(String baseApiUrl) throws IOException {
 
@@ -35,7 +34,7 @@ public class API {
             }
         } catch (IOException e) {
             // log the error to the console window (logcat)
-            Log.e(TAG, "searchJSON: ", e);
+            Log.e(TAG, "Error in httpCall: " + baseApiUrl);
         }
         return null;
     }
