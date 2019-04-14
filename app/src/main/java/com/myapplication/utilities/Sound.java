@@ -12,11 +12,10 @@ public class Sound {
 
         for(int i = 0; i < morse.length(); i++){
             if(morse.charAt(i) == '.'){
-                soundLoop(mediaPlayer, noSound, 200);
+                soundLoop(mediaPlayer, noSound, 100);
             }
             else if(morse.charAt(i) == '-'){
-                soundLoop(mediaPlayer, noSound, 500);
-
+                soundLoop(mediaPlayer, noSound, 300);
             }
             else if(morse.charAt(i) == ' '){
                 soundLoopForSpace(noSound, 300);

@@ -64,15 +64,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ConversionModel model;
     Flashlight flashlight = new Flashlight();
 
-    @TargetApi(23)
-    final CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+
+
     private static final int CAMERA_REQUEST = 50;
-    final boolean hasCameraFlash = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
 
-
+    @TargetApi(23)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        final CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        final boolean hasCameraFlash = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
+
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
