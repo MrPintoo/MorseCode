@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity  {
         toMorse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ConversionActivity.class);
+                Intent intent = new Intent(MainActivity.this, ToMorseActivity.class);
                 startActivity(intent);
             }
         });
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity  {
         toText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ConversionActivity.class);
+                Intent intent = new Intent(MainActivity.this, ToTextActivity.class);
                 startActivity(intent);
             }
         });

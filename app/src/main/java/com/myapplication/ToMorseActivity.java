@@ -25,10 +25,9 @@ import com.myapplication.utilities.Flashlight;
 import com.myapplication.utilities.Sound;
 import com.myapplication.utilities.Vibration;
 
-public class ConversionActivity extends AppCompatActivity {
+public class ToMorseActivity extends AppCompatActivity {
 
     private Button toMorseButton;
-//    private Button toTextButton;
     private Button toVibrate;
     private Button toSound;
     private Button buttonEnable;
@@ -83,7 +82,7 @@ public class ConversionActivity extends AppCompatActivity {
         buttonEnable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ActivityCompat.requestPermissions(ConversionActivity.this, new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST);
+                ActivityCompat.requestPermissions(ToMorseActivity.this, new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST);
             }
         });
 
@@ -97,7 +96,7 @@ public class ConversionActivity extends AppCompatActivity {
                         if (hasCameraFlash) {
                             flashlight.flash(cameraManager, response);
                         } else {
-                            Toast.makeText(ConversionActivity.this, "No flash available on your device", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ToMorseActivity.this, "No flash available on your device", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

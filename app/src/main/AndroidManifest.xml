@@ -29,7 +29,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ConversionActivity"></activity>
+        <activity android:name=".ToMorseActivity" />
+        <activity android:name=".ToTextActivity"></activity>
     </application>
 
 </manifest>
