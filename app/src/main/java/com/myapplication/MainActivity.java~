@@ -44,12 +44,17 @@ import com.myapplication.utilities.Vibration;
 import org.json.JSONException;
 
 import java.io.IOException;
+
+<<<<<<< HEAD
+//implements NavigationView.OnNavigationItemSelectedListener
+public class MainActivity extends AppCompatActivity  {
+=======
+
 import java.security.Policy;
 import java.util.List;
 
-
-//implements NavigationView.OnNavigationItemSelectedListener
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+>>>>>>> master
 
     private Button toMorseButton;
     private Button toTextButton;
@@ -74,12 +79,19 @@ public class MainActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+<<<<<<< HEAD
+        setContentView(R.layout.home_page);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+=======
         final CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         final boolean hasCameraFlash = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
 
+
         setContentView(R.layout.activity_main);
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+>>>>>>> master
 
         /************************************************/
         /** Retrieve text_to_morse JSON with HTTP call **/
@@ -93,6 +105,7 @@ public class MainActivity extends AppCompatActivity  {
         task.execute(getString(R.string.textToMorseAPI), getString(R.string.morseToTextAPI));
         /************************************************/
 
+<<<<<<< HEAD
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.settings);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -100,13 +113,24 @@ public class MainActivity extends AppCompatActivity  {
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 //            }
 //        });
-
+=======
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
+        });
+>>>>>>> master
 
         /*********************************************************************************/
         /**                               Conversion Process                            **/
         inputToConvert = (EditText) findViewById(R.id.input_editText);
         convertedText = (TextView) findViewById(R.id.converted_text);
 
+<<<<<<< HEAD
+        toMorseButton = (Button) findViewById(R.id.toMorse);
+=======
         imageFlashlight = (Button) findViewById(R.id.imageFlashlight);
         buttonEnable = (Button) findViewById(R.id.buttonEnable);
 
@@ -144,6 +168,7 @@ public class MainActivity extends AppCompatActivity  {
         });
 
         toMorseButton = (Button) findViewById(R.id.to_morse_button);
+>>>>>>> master
         toMorseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -223,6 +248,7 @@ public class MainActivity extends AppCompatActivity  {
 
         /************************************************************************************/
 
+<<<<<<< HEAD
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
 //                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -231,9 +257,44 @@ public class MainActivity extends AppCompatActivity  {
 //
 //        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 //        navigationView.setNavigationItemSelectedListener(this);
+=======
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
+
+
+//    @TargetApi(23)
+//    private void flashLightOn() {
+//        CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+//
+//        try {
+//            String cameraId = cameraManager.getCameraIdList()[0];
+//            cameraManager.setTorchMode(cameraId, true);
+//            flashLightStatus = true;
+//        } catch (CameraAccessException e) {
+//            e.getStackTrace();
+//        }
+//    }
+//
+//    @TargetApi(23)
+//    private void flashLightOff() {
+//        CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+//
+//        try {
+//            String cameraId = cameraManager.getCameraIdList()[0];
+//            cameraManager.setTorchMode(cameraId, false);
+//            flashLightStatus = false;
+//        } catch (CameraAccessException e) {
+//            e.getReason();
+//        }
+//    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -248,6 +309,66 @@ public class MainActivity extends AppCompatActivity  {
                 }
                 break;
         }
+    }
+
+
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+>>>>>>> master
     }
 //
 //    @Override
