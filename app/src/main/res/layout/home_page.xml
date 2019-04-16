@@ -6,16 +6,17 @@
     android:layout_height="match_parent"
     android:background="@drawable/grey">
 
+
     <Button
         android:id="@+id/to_morse_button"
-        android:layout_width="157dp"
-        android:layout_height="140dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginLeft="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginRight="1dp"
+        android:layout_width="164dp"
+        android:layout_height="46dp"
         android:layout_marginBottom="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
         android:text="To Morse"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,29 +27,35 @@
 
     <Button
         android:id="@+id/to_text_button"
-        android:layout_width="152dp"
-        android:layout_height="145dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginLeft="1dp"
+        android:layout_width="154dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="1dp"
+        android:layout_marginLeft="1dp"
         android:layout_marginRight="1dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="8dp"
         android:text="To Text"
         app:layout_constraintBottom_toTopOf="@+id/to_morse_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appicon" />
 
     <ImageView
         android:id="@+id/appicon"
         android:layout_width="213dp"
         android:layout_height="256dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginLeft="1dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="1dp"
+        android:layout_marginLeft="1dp"
         android:layout_marginRight="1dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/appicon"
-        tools:layout_editor_absoluteY="47dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.033"
+        app:srcCompat="@drawable/appicon" />
 </android.support.constraint.ConstraintLayout>
