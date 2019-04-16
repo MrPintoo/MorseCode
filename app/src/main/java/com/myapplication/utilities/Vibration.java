@@ -1,10 +1,12 @@
 package com.myapplication.utilities;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Vibrator;
 
 import java.util.ArrayList;
 
+@TargetApi(23)
 public class Vibration {
 
     private static Vibrator vibrator;

@@ -49,6 +49,6 @@
         android:layout_marginRight="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/Appicon"
+        app:srcCompat="@drawable/appicon"
         tools:layout_editor_absoluteY="47dp" />
 </android.support.constraint.ConstraintLayout>
