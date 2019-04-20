@@ -3,11 +3,12 @@
     package="com.myapplication">
 
     <!-- app permissions -->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <!-- flashlight permissions -->
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
 
     <application
@@ -28,7 +29,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ToMorseActivity" />
+        <activity android:name=".ToTextActivity"></activity>
     </application>
 
 </manifest>
-
