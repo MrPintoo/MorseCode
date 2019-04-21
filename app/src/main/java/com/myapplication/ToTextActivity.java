@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraManager;
 import android.media.MediaPlayer;
+import android.net.wifi.p2p.WifiP2pManager;
+import android.os.Handler;
+import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -15,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,31 +27,56 @@ import com.myapplication.networks.ConversionAsyncTask;
 import com.myapplication.networks.HTTPAsyncTask;
 import com.myapplication.utilities.Flashlight;
 import com.myapplication.utilities.Sound;
-import com.myapplication.utilities.Vibration;
 
 public class ToTextActivity extends AppCompatActivity {
 
 
     private Button toTextButton;
-    //private Button toVibrate;
     private Button toSound;
     private Button buttonEnable;
     private Button imageFlashlight;
     private EditText inputToConvert;
     private TextView convertedText;
 
-    Vibration vibration;
     ConversionModel model;
     Flashlight flashlight = new Flashlight();
 
     private static final int CAMERA_REQUEST = 50;
 
 
+
+
+    /* constants */
+    private static final int POLL_INTERVAL = 50;
+
+    /** running state **/
+    private boolean mRunning = false;
+
+    /** config state **/
+    private int mThreshold;
+
+    int RECORD_AUDIO = 0;
+    private PowerManager.WakeLock mWakeLock;
+
+    private Handler mHandler = new Handler();
+
+    /* References to view elements */
+    private TextView mStatusView,tv_noice;
+    private Button listen;
+
+    /* sound data source */
+    private DetectNoise mSensor;
+    ProgressBar bar;
+
+
+
+
+
     @TargetApi(23)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_to_text);
+        setContentView(R.layout.to_text);
 
         final CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         final boolean hasCameraFlash = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
@@ -123,43 +152,6 @@ public class ToTextActivity extends AppCompatActivity {
             }
         });
 
-//        toTextButton = (Button) findViewById(R.id.to_text_button);
-//        toTextButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ConversionAsyncTask task = new ConversionAsyncTask();
-//                task.setConversionListener(new ConversionAsyncTask.ConversionListener() {
-//                    @Override
-//                    public void onConversionCallback(String response) {
-//                        model.setOutput(response);
-//                        convertedText.setText(model.getOutput());
-//                    }
-//                });
-//                model.setInput(inputToConvert.getText().toString());
-//                task.execute(model.getInput(), model.getMorseToTextURL());
-//            }
-//        });
-
-//        toVibrate = (Button) findViewById(R.id.vibrate_btn);
-//        toVibrate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ConversionAsyncTask task = new ConversionAsyncTask();
-//                task.setConversionListener(new ConversionAsyncTask.ConversionListener() {
-//                    @Override
-//                    public void onConversionCallback(String response) {
-//                        try {
-//                            vibration.vibrate(getBaseContext(), response);
-//                        } catch(Exception e) {
-//                            Log.e("Vibration", "onConversionCallback");
-//                        }
-//                    }
-//                });
-//                model.setInput(inputToConvert.getText().toString());
-//                task.execute(model.getInput(),model.getTextToMorseURL());
-//            }
-//        });
-
         toSound = (Button) findViewById(R.id.sound_btn);
         final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.beepsound);
         final MediaPlayer noSound = MediaPlayer.create(this, R.raw.nosound);
@@ -182,6 +174,24 @@ public class ToTextActivity extends AppCompatActivity {
             }
         });
 
+
+        listen = (Button) findViewById(R.id.listen);
+        listen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        mStatusView = (TextView) findViewById(R.id.status);
+        tv_noice = (TextView) findViewById(R.id.tv_noice);
+        bar = (ProgressBar) findViewById(R.id.progressBar1);
+        // Used to record voice
+        mSensor = new DetectNoise();
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "NoiseAlert");
+
+
+
     }
 
 
@@ -200,6 +210,110 @@ public class ToTextActivity extends AppCompatActivity {
                 break;
         }
     }
+
+
+
+
+    /****************** Define runnable thread again and again detect noise *********/
+
+    private Runnable mSleepTask = new Runnable() {
+        public void run() {
+            //Log.i("Noise", "runnable mSleepTask");
+            start();
+        }
+    };
+
+    // Create runnable thread to Monitor Voice
+    private Runnable mPollTask = new Runnable() {
+        public void run() {
+            double amp = mSensor.getAmplitude();
+            //Log.i("Noise", "runnable mPollTask");
+            updateDisplay("Monitoring Voice...", amp);
+
+            if ((amp > mThreshold)) {
+                callForHelp(amp);
+                //Log.i("Noise", "==== onCreate ===");
+            }
+            // Runnable(mPollTask) will again execute after POLL_INTERVAL
+            mHandler.postDelayed(mPollTask, POLL_INTERVAL);
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //Log.i("Noise", "==== onResume ===");
+
+        initializeApplicationConstants();
+        if (!mRunning) {
+            mRunning = true;
+            start();
+        }
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        // Log.i("Noise", "==== onStop ===");
+        //Stop noise monitoring
+        stop();
+    }
+    private void start() {
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, RECORD_AUDIO);
+        }
+
+        //Log.i("Noise", "==== start ===");
+        mSensor.start();
+        if (!mWakeLock.isHeld()) {
+            mWakeLock.acquire();
+        }
+        //Noise monitoring start
+        // Runnable(mPollTask) will execute after POLL_INTERVAL
+        mHandler.postDelayed(mPollTask, POLL_INTERVAL);
+    }
+    private void stop() {
+        Log.d("Noise", "==== Stop Noise Monitoring===");
+        if (mWakeLock.isHeld()) {
+            mWakeLock.release();
+        }
+        mHandler.removeCallbacks(mSleepTask);
+        mHandler.removeCallbacks(mPollTask);
+        mSensor.stop();
+        bar.setProgress(0);
+        updateDisplay("stopped...", 0.0);
+        mRunning = false;
+
+    }
+
+
+    private void initializeApplicationConstants() {
+        // Set Noise Threshold
+        mThreshold = 2;
+
+    }
+
+    private void updateDisplay(String status, double signalEMA) {
+        mStatusView.setText(status);
+        //
+        bar.setProgress((int)signalEMA);
+        Log.d("SOUND", String.valueOf(signalEMA));
+        tv_noice.setText(signalEMA+"dB");
+    }
+
+
+    private void callForHelp(double signalEMA) {
+
+//        stop();
+
+        // Show alert when noise thersold crossed
+        Toast.makeText(getApplicationContext(), "Noise Thresold Crossed, do your stuff here.",
+                Toast.LENGTH_LONG).show();
+        Log.d("SOUND", String.valueOf(signalEMA));
+        tv_noice.setText(signalEMA+"dB");
+    }
+
 
 
 }
