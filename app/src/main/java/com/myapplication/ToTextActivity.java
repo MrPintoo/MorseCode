@@ -29,6 +29,7 @@ import com.myapplication.utilities.Camera;
 import com.myapplication.utilities.Flashlight;
 import com.myapplication.utilities.Sound;
 import com.myapplication.utilities.Vibration;
+import com.myapplication.utilities.readLight;
 
 public class ToTextActivity extends AppCompatActivity {
 
@@ -196,8 +197,16 @@ public class ToTextActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent (MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent,0);
-
-
+                ConversionAsyncTask task = new ConversionAsyncTask();
+                task.setConversionListener(new ConversionAsyncTask.ConversionListener() {
+                    @Override
+                    public void onConversionCallback(String response) {
+                        Intent intent = new Intent(ToTextActivity.this ,readLight.class);
+                        startActivity(intent);
+                    }
+                });
+                model.setInput(inputToConvert.getText().toString());
+                task.execute(model.getInput(), model.getMorseToTextURL());
             }
         });
 

@@ -32,6 +32,7 @@
         </activity>
         <activity android:name=".ToMorseActivity" />
         <activity android:name=".ToTextActivity"></activity>
+        <activity android:name=".readLight"></activity>
     </application>
 
 </manifest>

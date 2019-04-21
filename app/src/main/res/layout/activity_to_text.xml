@@ -217,4 +217,23 @@
         app:layout_constraintVertical_bias="0.923" />
 
 
+    <SurfaceView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop = "true"
+        android:id="@+id/CameraView"
+        />
+
+
+    <SurfaceView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop = "true"
+        android:id="@+id/TransparentView"
+        />
+
+
+
+
+
 </android.support.constraint.ConstraintLayout>
