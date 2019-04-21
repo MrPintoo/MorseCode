@@ -3,9 +3,12 @@ package com.myapplication;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.hardware.camera2.CameraManager;
 import android.media.MediaPlayer;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -15,12 +18,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myapplication.models.ConversionModel;
 import com.myapplication.networks.ConversionAsyncTask;
 import com.myapplication.networks.HTTPAsyncTask;
+import com.myapplication.utilities.Camera;
 import com.myapplication.utilities.Flashlight;
 import com.myapplication.utilities.Sound;
 import com.myapplication.utilities.Vibration;
@@ -35,6 +40,8 @@ public class ToTextActivity extends AppCompatActivity {
     private Button imageFlashlight;
     private EditText inputToConvert;
     private TextView convertedText;
+    private Button buttonCamera;
+    private ImageView imageView;
 
     Vibration vibration;
     ConversionModel model;
@@ -182,6 +189,25 @@ public class ToTextActivity extends AppCompatActivity {
             }
         });
 
+        buttonCamera = (Button)findViewById(R.id.buttonCamera);
+
+        buttonCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent,0);
+
+
+            }
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult (int requestCode, int resutlCode, Intent data){
+        super.onActivityResult(requestCode, resutlCode, data);
+        Bitmap bitmap = (Bitmap)data.getExtras().get("data");
+        imageView.setImageBitmap(bitmap);
     }
 
 
