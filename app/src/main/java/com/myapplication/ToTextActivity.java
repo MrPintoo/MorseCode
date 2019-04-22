@@ -27,6 +27,7 @@ import com.myapplication.networks.ConversionAsyncTask;
 import com.myapplication.networks.HTTPAsyncTask;
 import com.myapplication.utilities.Flashlight;
 import com.myapplication.utilities.Sound;
+import com.myapplication.utilities.SoundRunnable;
 
 public class ToTextActivity extends AppCompatActivity {
 
@@ -44,31 +45,31 @@ public class ToTextActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 50;
 
 
+    private static ToTextActivity mContext;
 
+    /* constants */
+    private static final int POLL_INTERVAL = 300;
 
-//    /* constants */
-//    private static final int POLL_INTERVAL = 300;
-//
-//    /** running state **/
-//    private boolean mRunning = false;
-//
-//    /** config state **/
-//    private int mThreshold;
-//
-//    int RECORD_AUDIO = 0;
-//    private PowerManager.WakeLock mWakeLock;
-//
-//    private Handler mHandler = new Handler();
-//
-//    /* References to view elements */
-//    private TextView mStatusView,tv_noice;
-//    private Button listen;
-//
-//    /* sound data source */
-//    private DetectNoise mSensor;
-//    ProgressBar bar;
+    /** running state **/
+    private boolean mRunning = false;
 
+    /** config state **/
+    private int mThreshold;
 
+    int RECORD_AUDIO = 0;
+    private PowerManager.WakeLock mWakeLock;
+
+    private Handler mHandler = new Handler();
+
+    /* References to view elements */
+    private TextView mStatusView,tv_noice;
+    private Button listen;
+
+    /* sound data source */
+    private DetectNoise mSensor;
+    ProgressBar bar;
+
+    SoundRunnable soundRunnable;
 
 
 
@@ -77,6 +78,8 @@ public class ToTextActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.to_text);
+
+        mContext = this;
 
         final CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         final boolean hasCameraFlash = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
@@ -175,20 +178,24 @@ public class ToTextActivity extends AppCompatActivity {
         });
 
 
-
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+//
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, RECORD_AUDIO);
+//        }
         mStatusView = (TextView) findViewById(R.id.status);
         tv_noice = (TextView) findViewById(R.id.tv_noice);
         bar = (ProgressBar) findViewById(R.id.progressBar1);
         // Used to record voice
-        mSensor = new DetectNoise();
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "NoiseAlert");
+//        mSensor = new DetectNoise();
+        final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+//        mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "NoiseAlert");
+        soundRunnable = new SoundRunnable(pm, mStatusView, tv_noice, bar);
         listen = (Button) findViewById(R.id.listen);
         listen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                mHandler.postDelayed(mSleepTask, POLL_INTERVAL);
-//                mHandler.postDelayed(mPollTask, POLL_INTERVAL);
+                mHandler.postDelayed(soundRunnable.mPollTask, 50);
+                soundRunnable.run();
             }
         });
 
@@ -210,6 +217,11 @@ public class ToTextActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+
+    public static ToTextActivity getContext() {
+        return mContext;
     }
 
 

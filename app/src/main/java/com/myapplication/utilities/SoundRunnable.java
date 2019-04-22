@@ -1,10 +1,12 @@
 package com.myapplication.utilities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myapplication.DetectNoise;
+import com.myapplication.ToTextActivity;
 
 public class SoundRunnable implements Runnable {
 
@@ -25,7 +28,6 @@ public class SoundRunnable implements Runnable {
     private int mThreshold;
 
     int RECORD_AUDIO = 0;
-    private PowerManager.WakeLock mWakeLock;
 
     private Handler mHandler = new Handler();
 
@@ -34,14 +36,27 @@ public class SoundRunnable implements Runnable {
     private Button listen;
 
     /* sound data source */
-    private DetectNoise mSensor;
+    private DetectNoise mSensor = new DetectNoise();
+    ;
     ProgressBar bar;
 
+    PowerManager pm;
+    private PowerManager.WakeLock mWakeLock;// = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "NoiseAlert");
+
+
+    public SoundRunnable(PowerManager powerManager, TextView status, TextView db, ProgressBar progressBar) {
+        pm = powerManager;
+        mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "NoiseAlert");
+        mStatusView = status;
+        tv_noice = db;
+        bar = progressBar;
+    }
 
 
 //    public Runnable mSleepTask = new Runnable() {
         public void run() {
             //Log.i("Noise", "runnable mSleepTask");
+
             start();
         }
 //    };
@@ -83,13 +98,11 @@ public class SoundRunnable implements Runnable {
         stop();
     }
     private void start() {
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, RECORD_AUDIO);
-        }
-
         //Log.i("Noise", "==== start ===");
+        if (ActivityCompat.checkSelfPermission(ToTextActivity.getContext(), Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(ToTextActivity.getContext(), new String[]{Manifest.permission.RECORD_AUDIO}, RECORD_AUDIO);
+        }
         mSensor.start();
         if (!mWakeLock.isHeld()) {
             mWakeLock.acquire();
@@ -103,7 +116,7 @@ public class SoundRunnable implements Runnable {
         if (mWakeLock.isHeld()) {
             mWakeLock.release();
         }
-        mHandler.removeCallbacks(mSleepTask);
+//        mHandler.removeCallbacks(mSleepTask);
         mHandler.removeCallbacks(mPollTask);
         mSensor.stop();
         bar.setProgress(0);
@@ -133,8 +146,8 @@ public class SoundRunnable implements Runnable {
 //        stop();
 
         // Show alert when noise thersold crossed
-        Toast.makeText(getApplicationContext(), "Noise Thresold Crossed, do your stuff here.",
-                Toast.LENGTH_LONG).show();
+
+        Toast.makeText(ToTextActivity.getContext(), "Noise Thresold Crossed, do your stuff here.", Toast.LENGTH_LONG).show();
         Log.d("SOUND", String.valueOf(signalEMA));
         tv_noice.setText(signalEMA+"dB");
     }
