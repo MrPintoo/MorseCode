@@ -1,4 +1,4 @@
-package com.myapplication.utilities;
+package com.myapplication;
 
 import android.annotation.TargetApi;
 import android.content.res.Resources;
@@ -19,7 +19,7 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 
 
-public class readLight extends AppCompatActivity implements SurfaceHolder.Callback {
+public class readLightActivity extends AppCompatActivity implements SurfaceHolder.Callback {
 
 
 
@@ -57,7 +57,6 @@ public class readLight extends AppCompatActivity implements SurfaceHolder.Callba
         //getting the device heigth and width
         deviceWidth=getScreenWidth();
         deviceHeight=getScreenHeight();
-
 
     }
 
