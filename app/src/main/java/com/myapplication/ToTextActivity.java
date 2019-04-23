@@ -29,7 +29,7 @@ import com.myapplication.utilities.Camera;
 import com.myapplication.utilities.Flashlight;
 import com.myapplication.utilities.Sound;
 import com.myapplication.utilities.Vibration;
-import com.myapplication.readLightActivity;
+//import com.myapplication.readLightActivity;
 
 public class ToTextActivity extends AppCompatActivity {
 
@@ -192,32 +192,32 @@ public class ToTextActivity extends AppCompatActivity {
 
         buttonCamera = (Button)findViewById(R.id.buttonCamera);
 
-        buttonCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent (MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent,0);
-                ConversionAsyncTask task = new ConversionAsyncTask();
-                task.setConversionListener(new ConversionAsyncTask.ConversionListener() {
-                    @Override
-                    public void onConversionCallback(String response) {
-                        Intent intent = new Intent(ToTextActivity.this ,readLightActivity.class);
-                        startActivity(intent);
-                    }
-                });
-                model.setInput(inputToConvert.getText().toString());
-                task.execute(model.getInput(), model.getMorseToTextURL());
-            }
-        });
+//        buttonCamera.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent (MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivityForResult(intent,0);
+//                ConversionAsyncTask task = new ConversionAsyncTask();
+//                task.setConversionListener(new ConversionAsyncTask.ConversionListener() {
+//                    @Override
+//                    public void onConversionCallback(String response) {
+//                        Intent intent = new Intent(ToTextActivity.this ,readLightActivity.class);
+//                        startActivity(intent);
+//                    }
+//                });
+//                model.setInput(inputToConvert.getText().toString());
+//                task.execute(model.getInput(), model.getMorseToTextURL());
+//            }
+//        });
 
     }
 
-    @Override
-    protected void onActivityResult (int requestCode, int resutlCode, Intent data){
-        super.onActivityResult(requestCode, resutlCode, data);
-        Bitmap bitmap = (Bitmap)data.getExtras().get("data");
-        imageView.setImageBitmap(bitmap);
-    }
+//    @Override
+//    protected void onActivityResult (int requestCode, int resutlCode, Intent data){
+//        super.onActivityResult(requestCode, resutlCode, data);
+//        Bitmap bitmap = (Bitmap)data.getExtras().get("data");
+//        imageView.setImageBitmap(bitmap);
+//    }
 
 
 
