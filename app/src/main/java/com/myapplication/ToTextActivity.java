@@ -30,10 +30,11 @@ import com.myapplication.utilities.NoiseDetection.SoundRunnable;
 
 public class ToTextActivity extends AppCompatActivity {
 
+    private static final String TAG = "ToTextActivity";
 
     private Button toTextButton;
     private Button toSound;
-    private Button buttonEnable;
+    //private Button buttonEnable;
     private Button imageFlashlight;
     private EditText inputToConvert;
     private TextView convertedText;
@@ -93,25 +94,28 @@ public class ToTextActivity extends AppCompatActivity {
         convertedText = (TextView) findViewById(R.id.converted_text);
 
         imageFlashlight = (Button) findViewById(R.id.light_btn);
-        buttonEnable = (Button) findViewById(R.id.buttonEnable);
+        //buttonEnable = (Button) findViewById(R.id.buttonEnable);
 
 
-        boolean isEnabled = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+        final boolean isCameraEnabled = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_GRANTED;
 
 
-        buttonEnable.setEnabled(!isEnabled);
-        imageFlashlight.setEnabled(isEnabled);
-        buttonEnable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ActivityCompat.requestPermissions(ToTextActivity.this, new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST);
-            }
-        });
+        //buttonEnable.setEnabled(!isEnabled);
+//        imageFlashlight.setEnabled(isEnabled);
+//        buttonEnable.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                ActivityCompat.requestPermissions(ToTextActivity.this, new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST);
+//            }
+//        });
 
         imageFlashlight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d(TAG, "onClick: light translate");
+                if (!isCameraEnabled)
+                    ActivityCompat.requestPermissions(ToTextActivity.this, new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST);
                 ConversionAsyncTask task = new ConversionAsyncTask();
                 task.setConversionListener(new ConversionAsyncTask.ConversionListener() {
                     @Override
@@ -205,9 +209,10 @@ public class ToTextActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch(requestCode) {
             case CAMERA_REQUEST :
+                Toast.makeText(this, "Received camera permission callback", Toast.LENGTH_SHORT).show();
                 if (grantResults.length > 0  &&  grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    buttonEnable.setEnabled(false);
-                    buttonEnable.setText("Camera Enabled!!");
+                    //buttonEnable.setEnabled(false);
+                    //buttonEnable.setText("Camera Enabled!!");
                     imageFlashlight.setEnabled(true);
                 } else {
                     Toast.makeText(this, "Permission Denied for the Camera", Toast.LENGTH_SHORT).show();
