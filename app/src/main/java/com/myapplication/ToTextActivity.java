@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraManager;
 import android.media.MediaPlayer;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.support.annotation.NonNull;
@@ -26,8 +25,10 @@ import com.myapplication.models.ConversionModel;
 import com.myapplication.networks.ConversionAsyncTask;
 import com.myapplication.networks.HTTPAsyncTask;
 import com.myapplication.utilities.Flashlight;
+import com.myapplication.utilities.NoiseDetection.DetectNoise;
+import com.myapplication.utilities.NoiseDetection.Timer;
 import com.myapplication.utilities.Sound;
-import com.myapplication.utilities.SoundRunnable;
+import com.myapplication.utilities.NoiseDetection.SoundRunnable;
 
 public class ToTextActivity extends AppCompatActivity {
 
@@ -47,17 +48,7 @@ public class ToTextActivity extends AppCompatActivity {
 
     private static ToTextActivity mContext;
 
-    /* constants */
-    private static final int POLL_INTERVAL = 300;
-
-    /** running state **/
-    private boolean mRunning = false;
-
-    /** config state **/
-    private int mThreshold;
-
     int RECORD_AUDIO = 0;
-    private PowerManager.WakeLock mWakeLock;
 
     private Handler mHandler = new Handler();
 
@@ -66,10 +57,10 @@ public class ToTextActivity extends AppCompatActivity {
     private Button listen;
 
     /* sound data source */
-    private DetectNoise mSensor;
     ProgressBar bar;
 
     SoundRunnable soundRunnable;
+//    Timer timer = new Timer();
 
 
 
@@ -80,6 +71,7 @@ public class ToTextActivity extends AppCompatActivity {
         setContentView(R.layout.to_text);
 
         mContext = this;
+//        timer.startTime();
 
         final CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         final boolean hasCameraFlash = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
@@ -178,22 +170,29 @@ public class ToTextActivity extends AppCompatActivity {
         });
 
 
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-//
-//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, RECORD_AUDIO);
-//        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, RECORD_AUDIO);
+        }
+
         mStatusView = (TextView) findViewById(R.id.status);
         tv_noice = (TextView) findViewById(R.id.tv_noice);
         bar = (ProgressBar) findViewById(R.id.progressBar1);
+
         // Used to record voice
-//        mSensor = new DetectNoise();
         final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-//        mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "NoiseAlert");
         soundRunnable = new SoundRunnable(pm, mStatusView, tv_noice, bar);
+
         listen = (Button) findViewById(R.id.listen);
         listen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                timer.pause();
+//                Log.d("MILLISECONDS", String.valueOf(timer.getMilliSeconds()));
+//                Log.d("SECONDS", String.valueOf(timer.getSeconds()));
+//                Log.d("MINUTES", String.valueOf(timer.getMinutes()));
+//                timer.reset();
+//                timer.startTime();
                 mHandler.postDelayed(soundRunnable.mPollTask, 50);
                 soundRunnable.run();
             }

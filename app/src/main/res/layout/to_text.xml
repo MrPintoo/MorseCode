@@ -139,24 +139,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.349" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/settings"
-        android:layout_width="103dp"
-        android:layout_height="53dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="1dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/toMorse"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/gear" />
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/settings"-->
+        <!--android:layout_width="103dp"-->
+        <!--android:layout_height="53dp"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginLeft="1dp"-->
+        <!--android:layout_marginRight="8dp"-->
+        <!--android:layout_marginStart="1dp"-->
+        <!--android:layout_marginTop="1dp"-->
+        <!--android:clickable="true"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toStartOf="@+id/toMorse"-->
+        <!--app:layout_constraintHorizontal_bias="0.0"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--app:layout_constraintVertical_bias="0.0"-->
+        <!--app:srcCompat="@drawable/gear" />-->
 
     <Button
         android:id="@+id/toText"

@@ -1,4 +1,4 @@
-package com.myapplication;
+package com.myapplication.utilities.NoiseDetection;
 
 
 import java.io.IOException;
