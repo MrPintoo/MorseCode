@@ -1,4 +1,4 @@
-package com.myapplication.utilities.NoiseDetection;
+package com.myapplication.utilities;
 
 import android.os.Handler;
 import android.os.SystemClock;

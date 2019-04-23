@@ -25,8 +25,6 @@ import com.myapplication.models.ConversionModel;
 import com.myapplication.networks.ConversionAsyncTask;
 import com.myapplication.networks.HTTPAsyncTask;
 import com.myapplication.utilities.Flashlight;
-import com.myapplication.utilities.NoiseDetection.DetectNoise;
-import com.myapplication.utilities.NoiseDetection.Timer;
 import com.myapplication.utilities.Sound;
 import com.myapplication.utilities.NoiseDetection.SoundRunnable;
 

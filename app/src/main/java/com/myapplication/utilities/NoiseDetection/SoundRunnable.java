@@ -3,16 +3,16 @@ package com.myapplication.utilities.NoiseDetection;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myapplication.ToTextActivity;
+import com.myapplication.utilities.Timer;
 
 public class SoundRunnable implements Runnable {
 
-    private static final int POLL_INTERVAL = 100;
+    private static final int POLL_INTERVAL = 0;
     private boolean mRunning = false;
     private int mThreshold;
 
@@ -48,7 +48,6 @@ public class SoundRunnable implements Runnable {
         public void run() {
             double amp = mSensor.getAmplitude();
             updateDisplay("Monitoring Voice...", amp);
-            amp = 0;
             if(amp > mThreshold)
                 timer.startTime();
             while (amp > mThreshold) {
@@ -56,6 +55,9 @@ public class SoundRunnable implements Runnable {
                 amp = mSensor.getAmplitude();
             }
 //            timer.pause();
+            Log.d("MILLISECONDS", String.valueOf(timer.getMilliSeconds()));
+            Log.d("SECONDS", String.valueOf(timer.getSeconds()));
+            Log.d("MINUTES", String.valueOf(timer.getMinutes()));
             timer.reset();
             mHandler.postDelayed(mPollTask, POLL_INTERVAL);
         }
