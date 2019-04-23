@@ -7,7 +7,6 @@
     tools:context=".ToTextActivity"
     android:background="@drawable/grey" >
 
-
     <TextView
         android:id="@+id/status"
         android:layout_width="wrap_content"
@@ -21,12 +20,12 @@
         android:text="stopped"
         android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/input_editText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.109"
-        app:layout_constraintStart_toEndOf="@+id/index"
-        app:layout_constraintTop_toBottomOf="@+id/buttonEnable"
-        app:layout_constraintVertical_bias="0.432" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonCamera"
+        app:layout_constraintHorizontal_bias="0.046"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sound_btn"
+        app:layout_constraintVertical_bias="0.166" />
 
     <ProgressBar
         android:id="@+id/progressBar1"
@@ -45,7 +44,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/converted_text"
-        app:layout_constraintVertical_bias="0.571" />
+        app:layout_constraintVertical_bias="0.955" />
 
     <TextView
         android:id="@+id/tv_noice"
@@ -63,7 +62,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.021"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/floatingActionButton"
+        app:layout_constraintTop_toBottomOf="@+id/status"
         app:layout_constraintVertical_bias="0.884" />
 
     <Button
@@ -77,10 +76,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="listen"
-        app:layout_constraintBottom_toTopOf="@+id/input_editText"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar1"
+        app:layout_constraintEnd_toStartOf="@+id/buttonCamera"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/status"
-        app:layout_constraintTop_toBottomOf="@+id/toText" />
+        app:layout_constraintTop_toBottomOf="@+id/toText"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/sound_btn"
@@ -124,14 +125,14 @@
 
     <ImageView
         android:id="@+id/diamond"
-        android:layout_width="68dp"
+        android:layout_width="67dp"
         android:layout_height="105dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:src="@drawable/diamond"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/light_btn"
@@ -217,13 +218,13 @@
     <TextView
         android:id="@+id/converted_text"
         android:layout_width="347dp"
-        android:layout_height="71dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginLeft="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginRight="1dp"
+        android:layout_height="76dp"
         android:layout_marginBottom="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
         android:text="TextView"
         android:textSize="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -251,28 +252,7 @@
         <!--app:layout_constraintVertical_bias="0.017"-->
         <!--app:srcCompat="@drawable/house" />-->
 
-<<<<<<< HEAD:app/src/main/res/layout/to_text.xml
-    <Button
-        android:id="@+id/buttonEnable"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Enable Camera"
-        android:textSize="20sp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.382"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.017" />
-=======
+
     <!--<Button-->
         <!--android:id="@+id/buttonEnable"-->
         <!--android:layout_width="wrap_content"-->
@@ -293,25 +273,25 @@
         <!--app:layout_constraintStart_toStartOf="parent"-->
         <!--app:layout_constraintTop_toTopOf="parent"-->
         <!--app:layout_constraintVertical_bias="0.017" />-->
->>>>>>> origin/NinaPotts:app/src/main/res/layout/activity_to_text.xml
 
     <Button
         android:id="@+id/buttonCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="16dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Open Camera"
         android:background="@color/colorPrimary"
+        android:text="Open Camera"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/settings"
+        app:layout_constraintHorizontal_bias="0.859"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.923" />
+        app:layout_constraintVertical_bias="0.93" />
 
 
     <!--<SurfaceView-->
