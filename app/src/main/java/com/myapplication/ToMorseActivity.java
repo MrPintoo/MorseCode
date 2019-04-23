@@ -73,12 +73,12 @@ public class ToMorseActivity extends AppCompatActivity {
        //buttonEnable = (Button) findViewById(R.id.buttonEnable);
 
 
-        boolean isEnabled = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+        final boolean isCameraEnabled = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_GRANTED;
 
 
         //buttonEnable.setEnabled(!isEnabled);
-        imageFlashlight.setEnabled(isEnabled);
+        //imageFlashlight.setEnabled(isEnabled);
 //        buttonEnable.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -89,7 +89,8 @@ public class ToMorseActivity extends AppCompatActivity {
         imageFlashlight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ActivityCompat.requestPermissions(ToMorseActivity.this, new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST);
+               //if(!isCameraEnabled)
+                //ActivityCompat.requestPermissions(ToMorseActivity.this, new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST);
                 ConversionAsyncTask task = new ConversionAsyncTask();
                 task.setConversionListener(new ConversionAsyncTask.ConversionListener() {
                     @Override
