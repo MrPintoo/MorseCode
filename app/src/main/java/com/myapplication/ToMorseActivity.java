@@ -41,12 +41,11 @@ public class ToMorseActivity extends AppCompatActivity {
 
     private static final int CAMERA_REQUEST = 50;
 
-
     @TargetApi(23)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.conversion_page);
+        setContentView(R.layout.to_morse);
 
         final CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         final boolean hasCameraFlash = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
@@ -121,23 +120,6 @@ public class ToMorseActivity extends AppCompatActivity {
                 task.execute(model.getInput(), model.getTextToMorseURL());
             }
         });
-
-//        toTextButton = (Button) findViewById(R.id.to_text_button);
-//        toTextButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ConversionAsyncTask task = new ConversionAsyncTask();
-//                task.setConversionListener(new ConversionAsyncTask.ConversionListener() {
-//                    @Override
-//                    public void onConversionCallback(String response) {
-//                        model.setOutput(response);
-//                        convertedText.setText(model.getOutput());
-//                    }
-//                });
-//                model.setInput(inputToConvert.getText().toString());
-//                task.execute(model.getInput(), model.getMorseToTextURL());
-//            }
-//        });
 
         toVibrate = (Button) findViewById(R.id.vibrate_btn);
         toVibrate.setOnClickListener(new View.OnClickListener() {

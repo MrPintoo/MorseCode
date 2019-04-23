@@ -3,12 +3,11 @@ package com.myapplication;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.hardware.camera2.CameraManager;
 import android.media.MediaPlayer;
-import android.provider.MediaStore;
+import android.os.Handler;
+import android.os.PowerManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -18,44 +17,61 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.myapplication.models.ConversionModel;
 import com.myapplication.networks.ConversionAsyncTask;
 import com.myapplication.networks.HTTPAsyncTask;
-import com.myapplication.utilities.Camera;
 import com.myapplication.utilities.Flashlight;
 import com.myapplication.utilities.Sound;
-import com.myapplication.utilities.Vibration;
-//import com.myapplication.readLightActivity;
+import com.myapplication.utilities.NoiseDetection.SoundRunnable;
 
 public class ToTextActivity extends AppCompatActivity {
 
 
     private Button toTextButton;
-    //private Button toVibrate;
     private Button toSound;
     private Button buttonEnable;
     private Button imageFlashlight;
     private EditText inputToConvert;
     private TextView convertedText;
     private Button buttonCamera;
-    private ImageView imageView;
 
-    Vibration vibration;
     ConversionModel model;
     Flashlight flashlight = new Flashlight();
 
     private static final int CAMERA_REQUEST = 50;
+
+    /************************************/
+    /** For the NoiseDetection feature **/
+
+    private static ToTextActivity mContext;
+
+    int RECORD_AUDIO = 0;
+
+    private Handler mHandler = new Handler();
+
+    /* References to view elements */
+    private TextView mStatusView,tv_noice;
+    private Button listen;
+
+    /* sound data source */
+    ProgressBar bar;
+
+    SoundRunnable soundRunnable;
+//    Timer timer = new Timer();
+    /*************************************/
 
 
     @TargetApi(23)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_to_text);
+        setContentView(R.layout.to_text);
+
+        mContext = this;
 
         final CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         final boolean hasCameraFlash = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
@@ -87,7 +103,6 @@ public class ToTextActivity extends AppCompatActivity {
 
 
         buttonEnable.setEnabled(!isEnabled);
-        imageFlashlight.setEnabled(isEnabled);
         buttonEnable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,6 +110,7 @@ public class ToTextActivity extends AppCompatActivity {
             }
         });
 
+        imageFlashlight.setEnabled(isEnabled);
         imageFlashlight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,46 +147,9 @@ public class ToTextActivity extends AppCompatActivity {
             }
         });
 
-//        toTextButton = (Button) findViewById(R.id.to_text_button);
-//        toTextButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ConversionAsyncTask task = new ConversionAsyncTask();
-//                task.setConversionListener(new ConversionAsyncTask.ConversionListener() {
-//                    @Override
-//                    public void onConversionCallback(String response) {
-//                        model.setOutput(response);
-//                        convertedText.setText(model.getOutput());
-//                    }
-//                });
-//                model.setInput(inputToConvert.getText().toString());
-//                task.execute(model.getInput(), model.getMorseToTextURL());
-//            }
-//        });
-
-//        toVibrate = (Button) findViewById(R.id.vibrate_btn);
-//        toVibrate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ConversionAsyncTask task = new ConversionAsyncTask();
-//                task.setConversionListener(new ConversionAsyncTask.ConversionListener() {
-//                    @Override
-//                    public void onConversionCallback(String response) {
-//                        try {
-//                            vibration.vibrate(getBaseContext(), response);
-//                        } catch(Exception e) {
-//                            Log.e("Vibration", "onConversionCallback");
-//                        }
-//                    }
-//                });
-//                model.setInput(inputToConvert.getText().toString());
-//                task.execute(model.getInput(),model.getTextToMorseURL());
-//            }
-//        });
-
-        toSound = (Button) findViewById(R.id.sound_btn);
         final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.beepsound);
         final MediaPlayer noSound = MediaPlayer.create(this, R.raw.nosound);
+        toSound = (Button) findViewById(R.id.sound_btn);
         toSound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,10 +170,10 @@ public class ToTextActivity extends AppCompatActivity {
         });
 
         buttonCamera = (Button)findViewById(R.id.buttonCamera);
-
-//        buttonCamera.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+        buttonCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("ToTextActivity", "buttonCamera is clicked.");
 //                Intent intent = new Intent (MediaStore.ACTION_IMAGE_CAPTURE);
 //                startActivityForResult(intent,0);
 //                ConversionAsyncTask task = new ConversionAsyncTask();
@@ -207,8 +186,34 @@ public class ToTextActivity extends AppCompatActivity {
 //                });
 //                model.setInput(inputToConvert.getText().toString());
 //                task.execute(model.getInput(), model.getMorseToTextURL());
-//            }
-//        });
+            }
+        });
+
+
+        /************************************/
+        /** For the NoiseDetection feature **/
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, RECORD_AUDIO);
+        }
+
+        mStatusView = (TextView) findViewById(R.id.status);
+        tv_noice = (TextView) findViewById(R.id.tv_noice);
+        bar = (ProgressBar) findViewById(R.id.progressBar1);
+
+        // Used to record voice
+        final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        soundRunnable = new SoundRunnable(pm, mStatusView, tv_noice, bar);
+
+        listen = (Button) findViewById(R.id.listen);
+        listen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mHandler.postDelayed(soundRunnable.mPollTask, 50);
+                soundRunnable.run();
+            }
+        });
+        /*************************************/
 
     }
 
@@ -236,5 +241,9 @@ public class ToTextActivity extends AppCompatActivity {
         }
     }
 
+
+    public static ToTextActivity getContext() {
+        return mContext;
+    }
 
 }
