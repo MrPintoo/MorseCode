@@ -1,14 +1,11 @@
 package com.myapplication;
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraManager;
 import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,7 +27,6 @@ public class ToMorseActivity extends AppCompatActivity {
     private Button toMorseButton;
     private Button toVibrate;
     private Button toSound;
-    private Button buttonEnable;
     private Button imageFlashlight;
     private EditText inputToConvert;
     private TextView convertedText;
@@ -69,25 +65,9 @@ public class ToMorseActivity extends AppCompatActivity {
         convertedText = (TextView) findViewById(R.id.converted_text);
 
         imageFlashlight = (Button) findViewById(R.id.light_btn);
-
-        final boolean isCameraEnabled = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                == PackageManager.PERMISSION_GRANTED;
-
-        buttonEnable = (Button) findViewById(R.id.buttonEnable);
-        buttonEnable.setEnabled(!isCameraEnabled);
-        imageFlashlight.setEnabled(isCameraEnabled);
-        buttonEnable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ActivityCompat.requestPermissions(ToMorseActivity.this, new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST);
-            }
-        });
-
         imageFlashlight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               //if(!isCameraEnabled)
-                //ActivityCompat.requestPermissions(ToMorseActivity.this, new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST);
                 ConversionAsyncTask task = new ConversionAsyncTask();
                 task.setConversionListener(new ConversionAsyncTask.ConversionListener() {
                     @Override
@@ -172,8 +152,6 @@ public class ToMorseActivity extends AppCompatActivity {
         switch(requestCode) {
             case CAMERA_REQUEST :
                 if (grantResults.length > 0  &&  grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //buttonEnable.setEnabled(false);
-                    //buttonEnable.setText("Camera Enabled!!");
                     imageFlashlight.setEnabled(true);
                 } else {
                     Toast.makeText(this, "Permission Denied for the Camera", Toast.LENGTH_SHORT).show();

@@ -2,10 +2,6 @@ package com.myapplication.utilities;
 
 import android.media.MediaPlayer;
 
-import com.myapplication.MainActivity;
-
-import java.io.IOException;
-
 public class Sound {
 
     public static void sound(MediaPlayer mediaPlayer, MediaPlayer noSound, String  morse){
