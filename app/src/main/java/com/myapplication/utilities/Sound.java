@@ -8,16 +8,16 @@ public class Sound {
 
         for(int i = 0; i < morse.length(); i++){
             if(morse.charAt(i) == '.'){
-                soundLoop(mediaPlayer, noSound, 100);
+                soundLoop(mediaPlayer, noSound, 250);
             }
             else if(morse.charAt(i) == '-'){
-                soundLoop(mediaPlayer, noSound, 300);
+                soundLoop(mediaPlayer, noSound, 500);
             }
             else if(morse.charAt(i) == ' '){
-                soundLoopForSpace(noSound, 300);
+                soundLoopForSpace(noSound, 800);
             }
             else{
-                soundLoopForSpace(noSound, 700);
+                soundLoopForSpace(noSound, 800);
 
             }
         }

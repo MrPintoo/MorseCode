@@ -27,6 +27,9 @@ public class RecordingThread {
     private static final String LOG_TAG = RecordingThread.class.getSimpleName();
     private static final int SAMPLE_RATE = 44100;
 
+    private static int threshold = 0;
+    private static boolean executed = false;
+
     public RecordingThread(AudioDataReceivedListener listener) {
         mListener = listener;
     }
@@ -96,30 +99,77 @@ public class RecordingThread {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
-        StopWatch test = new StopWatch();
-        test.start();
+        StopWatch calibratingStopWatch = new StopWatch();
+        calibratingStopWatch.start();
+
+        int [] maxFreqArray = new int[bufferSize / 2];
+        int index = 0;
+        boolean quiet = true;
+        boolean loud = false;
+        String morse = "";
+        int time = 12000;
 
         while (mShouldContinue) {
             int numberOfShort = record.read(audioBuffer, 0, audioBuffer.length);
             shortsRead += numberOfShort;
 
             int avg = 0;
-            for(int i = 0; i < audioBuffer.length; i++) {
+            for(int i = 0; i < audioBuffer.length; i++)
                 avg += Math.abs(audioBuffer[i]);
 
-            }
             avg = avg /audioBuffer.length;
             main.setTextValue(String.valueOf(avg));
 
-            mListener.onAudioDataReceived(audioBuffer);
+            if(calibratingStopWatch.getElapsedTime() > 5000) {
+                if(! executed) {
+                    int calibrateAvg = 0;
+                    for (int i = 0; i < maxFreqArray.length; i++)
+                        calibrateAvg += maxFreqArray[i];
 
-//            if(test.getElapsedTime() > 1000){
-//                if(avg < 5) {
-//                    stopWatch.stop();
-//                    main.setTextValue(String.valueOf(stopWatch.getElapsedTime()));
-//                    break;
-//                }
-//            }
+                    threshold = calibrateAvg / maxFreqArray.length;
+                    executed = true;
+                }
+
+                // If it is too quiet for longer than 7 seconds, quit.
+                if(stopWatch.getElapsedTime() > time && avg < threshold) {
+                    time = 5000;
+                    stopWatch.stop();
+                    main.setTextValue(morse);
+//                    main.setTextValue(String.valueOf(threshold));
+                    break;
+                } else if(avg < threshold) { // Timing of audio to determine morse characters.
+                    quiet = true;
+                    if(loud) {
+                        quiet = false;
+                        stopWatch.stop();
+                        stopWatch.start();
+                    }
+                    // Morse Conditions
+                    if(stopWatch.getElapsedTime() < 10000 && stopWatch.getElapsedTime() > 700)
+                        morse += " ";
+                } else { // Timing of audio to determine morse characters.
+                    loud = true;
+                    if(quiet) {
+                        loud = false;
+                        stopWatch.stop();
+                        stopWatch.start();
+                    }
+                    // Morse Conditions
+                    if(stopWatch.getElapsedTime() < 700 && stopWatch.getElapsedTime() > 300)
+                        morse += "-";
+                    else if(stopWatch.getElapsedTime() < 300 && stopWatch.getElapsedTime() > 100)
+                        morse += ".";
+                }
+            } else {
+                main.setTextValue("Give 5 seconds for calibration...");
+                int calibrateAvgFrame = 0;
+                for(int i = 0; i < audioBuffer.length; i++)
+                    calibrateAvgFrame += Math.abs(audioBuffer[i]);
+                calibrateAvgFrame = calibrateAvgFrame / audioBuffer.length;
+
+                maxFreqArray[index] = calibrateAvgFrame;
+                index++;
+            }
 
             // Notify waveform
             mListener.onAudioDataReceived(audioBuffer);
