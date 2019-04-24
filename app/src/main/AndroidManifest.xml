@@ -35,7 +35,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ToMorseActivity" />
-        <activity android:name=".ToTextActivity"></activity>
+        <activity android:name=".ToTextActivity" />
+        <activity android:name=".MainAudioTranslation" />
     </application>
 
 </manifest>
