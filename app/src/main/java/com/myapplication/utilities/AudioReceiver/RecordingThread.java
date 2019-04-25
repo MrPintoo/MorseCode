@@ -141,6 +141,7 @@ public class RecordingThread {
                     quiet = true;
                     if(loud) {
                         quiet = false;
+                        // Save time here? to capture the length of a series of frequencies
                         stopWatch.stop();
                         stopWatch.start();
                     }
