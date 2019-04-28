@@ -34,6 +34,13 @@
         android:text=""
         android:textSize="30dp" />
 
+    <TextView
+        android:id="@+id/morseCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="30dp" />
+
     <!--<com.myapplication.WaveformView-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="0dp"-->

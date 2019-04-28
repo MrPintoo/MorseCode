@@ -20,6 +20,10 @@ public class StopWatch {
         return running;
     }
 
+    public void setRunning(boolean var) {
+        running = var;
+    }
+
     // elaspsed time in milliseconds
     public long getElapsedTime() {
         long elapsed;

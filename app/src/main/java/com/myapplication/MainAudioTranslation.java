@@ -22,42 +22,47 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.myapplication.models.ConversionModel;
+import com.myapplication.networks.ConversionAsyncTask;
+import com.myapplication.networks.HTTPAsyncTask;
 import com.myapplication.utilities.AudioReceiver.AudioDataReceivedListener;
-//import com.myapplication.utilities.AudioReceiver.PlaybackListener;
-//import com.myapplication.utilities.AudioReceiver.PlaybackThread;
 import com.myapplication.utilities.AudioReceiver.RecordingThread;
 
-//import org.apache.commons.io.IOUtils;
-//
-//import java.io.IOException;
-//import java.io.InputStream;
-//import java.nio.ByteBuffer;
-//import java.nio.ByteOrder;
-//import java.nio.ShortBuffer;
 
 public class MainAudioTranslation extends AppCompatActivity {
 
+    ConversionModel model = new ConversionModel();
+
     private TextView avgFreq;
+    private TextView morseTextView;
     private WaveformView mRealtimeWaveformView;
     private RecordingThread mRecordingThread;
     private static MainAudioTranslation mContext;
 
-    //    private PlaybackThread mPlaybackThread;
+    // private PlaybackThread mPlaybackThread;
     private static final int REQUEST_RECORD_AUDIO = 13;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wave_form);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         mContext = this;
+
+        /************************************************/
+        /** Retrieve text_to_morse JSON with HTTP call **/
+        HTTPAsyncTask task = new HTTPAsyncTask();
+        task.setHTTPListener(new HTTPAsyncTask.HTTPListener() {
+            @Override
+            public void onHTTPCallback(ConversionModel response) {
+                model = response;
+            }
+        });
+        task.execute(getString(R.string.textToMorseAPI), getString(R.string.morseToTextAPI));
+        /************************************************/
 
         mRealtimeWaveformView = (WaveformView) findViewById(R.id.waveformView);
 
@@ -69,11 +74,9 @@ public class MainAudioTranslation extends AppCompatActivity {
             }
         });
 
-//        final WaveformView mPlaybackView = (WaveformView) findViewById(R.id.playbackWaveformView);
-
         /** Record Button **/
-
         avgFreq = (TextView) findViewById(R.id.avgFreq);
+        morseTextView = (TextView) findViewById(R.id.morseCode);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -86,57 +89,37 @@ public class MainAudioTranslation extends AppCompatActivity {
                 }
             }
         });
-
-//        /** Get Byte Form Audio Sample **/
-//        short[] samples = null;
-//        try {
-//            samples = getAudioSample();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        /** Playback **/
-//        if (samples != null) {
-//            final FloatingActionButton playFab = (FloatingActionButton) findViewById(R.id.playFab);
-//
-//            mPlaybackThread = new PlaybackThread(samples, new PlaybackListener() {
-//                @Override
-//                public void onProgress(int progress) {
-//                    mPlaybackView.setMarkerPosition(progress);
-//                }
-//                @Override
-//                public void onCompletion() {
-//                    mPlaybackView.setMarkerPosition(mPlaybackView.getAudioLength());
-//                    playFab.setImageResource(android.R.drawable.ic_media_play);
-//                }
-//            });
-//            mPlaybackView.setChannels(1);
-//            mPlaybackView.setSampleRate(PlaybackThread.SAMPLE_RATE);
-//            mPlaybackView.setSamples(samples);
-//
-//            playFab.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (!mPlaybackThread.playing()) {
-//                        mPlaybackThread.startPlayback();
-//                        playFab.setImageResource(android.R.drawable.ic_media_pause);
-//                    } else {
-//                        mPlaybackThread.stopPlayback();
-//                        playFab.setImageResource(android.R.drawable.ic_media_play);
-//                    }
-//                }
-//            });
-//        }
     }
 
-    public void setTextValue(final String value) {
+    public void setFreqValue(final String value) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 avgFreq.setText(String.valueOf(value));
             }
         });
+    }
 
+    public void setMorseValue(final String value) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                morseTextView.setText(String.valueOf(value));
+            }
+        });
+    }
+
+    public void setMorse(String morse) {
+        ConversionAsyncTask task = new ConversionAsyncTask();
+        task.setConversionListener(new ConversionAsyncTask.ConversionListener() {
+            @Override
+            public void onConversionCallback(String response) {
+                model.setOutput(response);
+                morseTextView.setText(model.getOutput());
+            }
+        });
+        model.setInput(morse);
+        task.execute(model.getInput(), model.getMorseToTextURL());
     }
 
     public static MainAudioTranslation getContext() {
@@ -146,51 +129,10 @@ public class MainAudioTranslation extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
         mRecordingThread.stopRecording();
-//        mPlaybackThread.stopPlayback();
     }
 
-//    private short[] getAudioSample() throws IOException{
-//        InputStream is = getResources().openRawResource(R.raw.jinglebells);
-//        byte[] data;
-//        try {
-//            data = IOUtils.toByteArray(is);
-//        } finally {
-//            if (is != null) {
-//                is.close();
-//            }
-//        }
-//
-//        ShortBuffer sb = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer();
-//        short[] samples = new short[sb.limit()];
-//        sb.get(samples);
-//        return samples;
-//    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void startAudioRecordingSafe() {
+    private String startAudioRecordingSafe() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO)
                 == PackageManager.PERMISSION_GRANTED) {
             mRecordingThread.startRecording();
@@ -217,8 +159,7 @@ public class MainAudioTranslation extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_RECORD_AUDIO && grantResults.length > 0 &&
                 grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             mRecordingThread.stopRecording();

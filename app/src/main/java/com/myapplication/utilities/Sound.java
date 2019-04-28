@@ -14,10 +14,10 @@ public class Sound {
                 soundLoop(mediaPlayer, noSound, 500);
             }
             else if(morse.charAt(i) == ' '){
-                soundLoopForSpace(noSound, 800);
+                soundLoopForSpace(noSound, 250);
             }
             else{
-                soundLoopForSpace(noSound, 800);
+                soundLoopForSpace(noSound, 500);
 
             }
         }

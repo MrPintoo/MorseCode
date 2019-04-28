@@ -36,6 +36,8 @@ public class MorseParser {
 
     public static String getMorse(JSONObject obj, String input){
 
+        boolean isSpace = false;
+
         try {
             char letter;
             String inputLetters;
@@ -43,7 +45,17 @@ public class MorseParser {
             for (int i = 0; i < input.length(); i++) {
                 letter = toLowerCase(input.charAt(i));
                 inputLetters = Character.toString(letter);
-                morse += " " + obj.getString(inputLetters);
+                if(letter == ' ' ) {
+                    morse += obj.getString(inputLetters);
+                    isSpace = true;
+                }
+                else {
+                    if(isSpace) {
+                        morse += obj.getString(inputLetters);
+                        isSpace = false;
+                    } else
+                    morse += " " + obj.getString(inputLetters);
+                }
             }
             return morse;
         } catch (JSONException e) {
