@@ -17,10 +17,13 @@ import android.widget.Toast;
 
 import com.myapplication.models.ConversionModel;
 import com.myapplication.networks.ConversionAsyncTask;
-import com.myapplication.networks.HTTPAsyncTask;
 import com.myapplication.utilities.Flashlight;
 import com.myapplication.utilities.Sound;
 import com.myapplication.utilities.Vibration;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class ToMorseActivity extends AppCompatActivity {
 
@@ -32,7 +35,7 @@ public class ToMorseActivity extends AppCompatActivity {
     private TextView convertedText;
 
     Vibration vibration;
-    ConversionModel model;
+    ConversionModel model = new ConversionModel();
     Flashlight flashlight = new Flashlight();
 
     private static final int CAMERA_REQUEST = 50;
@@ -47,15 +50,45 @@ public class ToMorseActivity extends AppCompatActivity {
         final boolean hasCameraFlash = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
 
         /************************************************/
-        /** Retrieve text_to_morse JSON with HTTP call **/
-        HTTPAsyncTask task = new HTTPAsyncTask();
-        task.setHTTPListener(new HTTPAsyncTask.HTTPListener() {
-            @Override
-            public void onHTTPCallback(ConversionModel response) {
-                model = response;
+        /** Retrieve text_to_morse JSON from JSON file **/
+        String textToMorse = "";
+        try {
+            String line;
+            InputStream ins = getResources().openRawResource(R.raw.text_to_morse);
+            StringBuffer stringBuffer = new StringBuffer();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ins));
+            if (ins != null) {
+                while ((line = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(line);
+                    stringBuffer.append("\n");
+                }
             }
-        });
-        task.execute(getString(R.string.textToMorseAPI), getString(R.string.morseToTextAPI));
+            textToMorse = stringBuffer.toString();
+            ins.close();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+
+        String morseToText = "";
+        try {
+            String line;
+            InputStream ins = getResources().openRawResource(R.raw.morse_to_text);
+            StringBuffer stringBuffer = new StringBuffer();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ins));
+            if (ins != null) {
+                while ((line = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(line);
+                    stringBuffer.append("\n");
+                }
+            }
+            morseToText = stringBuffer.toString();
+            ins.close();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+
+        model.setTextToMorseURL(textToMorse);
+        model.setMorseToTextURL(morseToText);
         /************************************************/
 
 
