@@ -137,8 +137,11 @@ public class RecordingThread {
 
                     threshold = calibrateAvg / maxFreqArray.length;
                     executed = true;
-                    threshold = 700;
+                    threshold = 2500;
                 }
+
+                if((calibratingStopWatch.getElapsedTime() - waitTime) > 10000)
+                    stopTime = 3000;
 
                 // If it is too quiet for longer than 5 seconds, quit.
                 if(stopTime > 2000 && avg < threshold && (calibratingStopWatch.getElapsedTime() - waitTime) > 10000 ) {
@@ -182,7 +185,7 @@ public class RecordingThread {
                             stopWatch.stop();
 
                             stopTime = stopWatch.getElapsedTime();
-                            if (stopTime < 650 && stopTime > 450) {
+                            if (stopTime < 600 && stopTime > 300) {
                                 morse += "-";
                             } else if (stopTime < 250 && stopTime > 50) {
                                 morse += ".";
