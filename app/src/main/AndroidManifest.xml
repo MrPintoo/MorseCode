@@ -2,14 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.myapplication">
 
-    <!-- app permissions -->
+    <!-- internet permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- vibrate permissions -->
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <!-- flashlight permissions -->
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-feature android:name="android.hardware.camera" />
+
+    <!-- audio permissions -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -30,7 +35,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ToMorseActivity" />
-        <activity android:name=".ToTextActivity"></activity>
+        <activity android:name=".ToTextActivity" />
+        <activity android:name=".MainAudioTranslation" />
+        <activity android:name=".LightSensor" />
     </application>
 
 </manifest>
