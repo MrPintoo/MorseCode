@@ -158,16 +158,26 @@
         android:id="@+id/toText"
         android:layout_width="112dp"
         android:layout_height="44dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/greenbutton"
         android:text="Convert!"
         android:textSize="18sp"
-        tools:layout_editor_absoluteX="149dp"
-        tools:layout_editor_absoluteY="542dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/input_editText"
+        app:layout_constraintVertical_bias="0.766" />
 
     <Button
         android:id="@+id/sound_btn"
-        android:layout_width="71dp"
-        android:layout_height="71dp"
+        android:layout_width="106dp"
+        android:layout_height="77dp"
         android:layout_marginStart="1dp"
         android:layout_marginLeft="1dp"
         android:layout_marginTop="1dp"
@@ -184,8 +194,8 @@
 
     <Button
         android:id="@+id/light_btn"
-        android:layout_width="70dp"
-        android:layout_height="83dp"
+        android:layout_width="84dp"
+        android:layout_height="86dp"
         android:layout_marginStart="1dp"
         android:layout_marginLeft="1dp"
         android:layout_marginTop="1dp"
@@ -201,24 +211,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.936" />
 
-
-    <ImageView
-        android:id="@+id/diamond"
-        android:layout_width="55dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:src="@drawable/diamond"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/light_btn"
-        app:layout_constraintHorizontal_bias="0.512"
-        app:layout_constraintStart_toStartOf="@+id/sound_btn"
-        app:layout_constraintTop_toTopOf="@+id/toText"
-        app:layout_constraintVertical_bias="0.518" />
 
     <!--<android.support.design.widget.FloatingActionButton-->
         <!--android:id="@+id/settings"-->

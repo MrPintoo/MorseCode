@@ -132,7 +132,7 @@ public class MainAudioTranslation extends AppCompatActivity {
         mRecordingThread.stopRecording();
     }
 
-    private String startAudioRecordingSafe() {
+    private void startAudioRecordingSafe() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO)
                 == PackageManager.PERMISSION_GRANTED) {
             mRecordingThread.startRecording();
