@@ -137,10 +137,11 @@ public class RecordingThread {
 
                     threshold = calibrateAvg / maxFreqArray.length;
                     executed = true;
+                    threshold = 700;
                 }
 
                 // If it is too quiet for longer than 5 seconds, quit.
-                if(stopTime > 2000 && avg < threshold && (calibratingStopWatch.getElapsedTime() - waitTime) > 5000 ) {
+                if(stopTime > 2000 && avg < threshold && (calibratingStopWatch.getElapsedTime() - waitTime) > 10000 ) {
                     stopWatch.stop();
                     break;
                 }
@@ -157,7 +158,7 @@ public class RecordingThread {
                         if(stopTime < 1650 && stopTime > 1450) {
                             morse += "/";
                         }
-                        else if(stopTime < 1450 && stopTime > 1000) {
+                        else if(stopTime < 400 && stopTime > 250) {
                             morse += " ";
                         }
                         main.setMorseValue("space = " + String.valueOf(stopTime));
@@ -181,9 +182,9 @@ public class RecordingThread {
                             stopWatch.stop();
 
                             stopTime = stopWatch.getElapsedTime();
-                            if (stopTime < 700 && stopTime > 500) {
+                            if (stopTime < 650 && stopTime > 450) {
                                 morse += "-";
-                            } else if (stopTime < 450 && stopTime > 250) {
+                            } else if (stopTime < 250 && stopTime > 50) {
                                 morse += ".";
                             }
                             highFreqProcessing = false;

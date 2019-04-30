@@ -27,9 +27,12 @@ import android.widget.TextView;
 
 import com.myapplication.models.ConversionModel;
 import com.myapplication.networks.ConversionAsyncTask;
-import com.myapplication.networks.HTTPAsyncTask;
 import com.myapplication.utilities.AudioReceiver.AudioDataReceivedListener;
 import com.myapplication.utilities.AudioReceiver.RecordingThread;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 
 public class MainAudioTranslation extends AppCompatActivity {
@@ -53,15 +56,45 @@ public class MainAudioTranslation extends AppCompatActivity {
         mContext = this;
 
         /************************************************/
-        /** Retrieve text_to_morse JSON with HTTP call **/
-        HTTPAsyncTask task = new HTTPAsyncTask();
-        task.setHTTPListener(new HTTPAsyncTask.HTTPListener() {
-            @Override
-            public void onHTTPCallback(ConversionModel response) {
-                model = response;
+        /** Retrieve text_to_morse JSON from JSON file **/
+        String textToMorse = "";
+        try {
+            String line;
+            InputStream ins = getResources().openRawResource(R.raw.text_to_morse);
+            StringBuffer stringBuffer = new StringBuffer();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ins));
+            if (ins != null) {
+                while ((line = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(line);
+                    stringBuffer.append("\n");
+                }
             }
-        });
-        task.execute(getString(R.string.textToMorseAPI), getString(R.string.morseToTextAPI));
+            textToMorse = stringBuffer.toString();
+            ins.close();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+
+        String morseToText = "";
+        try {
+            String line;
+            InputStream ins = getResources().openRawResource(R.raw.morse_to_text);
+            StringBuffer stringBuffer = new StringBuffer();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(ins));
+            if (ins != null) {
+                while ((line = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(line);
+                    stringBuffer.append("\n");
+                }
+            }
+            morseToText = stringBuffer.toString();
+            ins.close();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+
+        model.setTextToMorseURL(textToMorse);
+        model.setMorseToTextURL(morseToText);
         /************************************************/
 
         mRealtimeWaveformView = (WaveformView) findViewById(R.id.waveformView);
