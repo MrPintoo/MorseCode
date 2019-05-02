@@ -2,26 +2,22 @@ package com.myapplication.utilities;
 
 import android.media.MediaPlayer;
 
-import com.myapplication.MainActivity;
-
-import java.io.IOException;
-
 public class Sound {
 
     public static void sound(MediaPlayer mediaPlayer, MediaPlayer noSound, String  morse){
 
         for(int i = 0; i < morse.length(); i++){
             if(morse.charAt(i) == '.'){
-                soundLoop(mediaPlayer, noSound, 100);
+                soundLoop(mediaPlayer, noSound, 250);
             }
             else if(morse.charAt(i) == '-'){
-                soundLoop(mediaPlayer, noSound, 300);
+                soundLoop(mediaPlayer, noSound, 500);
             }
             else if(morse.charAt(i) == ' '){
-                soundLoopForSpace(noSound, 300);
+                soundLoopForSpace(noSound, 250);
             }
             else{
-                soundLoopForSpace(noSound, 700);
+                soundLoopForSpace(noSound, 500);
 
             }
         }
