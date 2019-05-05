@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/bluegrey" >
 
+
+
     <TextView
         android:id="@+id/converted_text"
         android:layout_width="347dp"
@@ -122,6 +124,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.745" />
 
+
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/index"
         android:layout_width="55dp"
@@ -181,5 +185,14 @@
         <!--app:layout_constraintTop_toTopOf="parent"-->
         <!--app:layout_constraintVertical_bias="0.017" />-->
 
+
+    <!--<ImageView-->
+        <!--android:id="@+id/imageView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:src="@drawable/indexx2"-->
+        <!--android:adjustViewBounds="true"-->
+        <!--android:elevation="2dp"-->
+        <!--/>-->
 
 </android.support.constraint.ConstraintLayout>
