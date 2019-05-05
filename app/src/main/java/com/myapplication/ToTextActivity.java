@@ -4,10 +4,13 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +38,9 @@ public class ToTextActivity extends AppCompatActivity {
     private Button imageFlashlight;
     private TextView inputToConvert;
     private TextView convertedText;
+    private FloatingActionButton index;
+    ImageView imageView;
+    boolean isVisible = false;
 
     ConversionModel model = new ConversionModel();
 
@@ -183,6 +189,23 @@ public class ToTextActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ToTextActivity.this, MainAudioTranslation.class);
                 startActivity(intent);
+            }
+        });
+
+        index = (FloatingActionButton) findViewById(R.id.index);
+        imageView = (ImageView)findViewById(R.id.imageView);
+        imageView.setVisibility(View.INVISIBLE);
+        index.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isVisible == false) {
+                    imageView.setVisibility(View.VISIBLE);
+                    isVisible = true;
+                }
+                else {
+                    imageView.setVisibility(View.INVISIBLE);
+                    isVisible = false;
+                }
             }
         });
         /*********************************************************************************/
