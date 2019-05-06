@@ -34,8 +34,6 @@ public class ToTextActivity extends AppCompatActivity {
     private Button delete;
 
     private Button toTextButton;
-    private Button toSound;
-    private Button imageFlashlight;
     private TextView inputToConvert;
     private TextView convertedText;
     private FloatingActionButton index;
@@ -45,8 +43,6 @@ public class ToTextActivity extends AppCompatActivity {
     ConversionModel model = new ConversionModel();
 
     String morse = "";
-
-    private static final int CAMERA_REQUEST = 50;
 
 
     @TargetApi(23)
@@ -156,15 +152,6 @@ public class ToTextActivity extends AppCompatActivity {
         inputToConvert = (TextView) findViewById(R.id.input_editText);
         convertedText = (TextView) findViewById(R.id.converted_text);
 
-        imageFlashlight = (Button) findViewById(R.id.light_btn);
-        imageFlashlight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ToTextActivity.this, LightSensor.class);
-                startActivity(intent);
-            }
-        });
-
         toTextButton = (Button) findViewById(R.id.toText);
         toTextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,15 +167,6 @@ public class ToTextActivity extends AppCompatActivity {
                 model.setInput(inputToConvert.getText().toString());
                 morse = "";
                 task.execute(model.getInput(), model.getMorseToTextURL());
-            }
-        });
-
-        toSound = (Button) findViewById(R.id.sound_btn);
-        toSound.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ToTextActivity.this, MainAudioTranslation.class);
-                startActivity(intent);
             }
         });
 
@@ -211,22 +189,6 @@ public class ToTextActivity extends AppCompatActivity {
         /*********************************************************************************/
 
     }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch(requestCode) {
-            case CAMERA_REQUEST :
-                Toast.makeText(this, "Received camera permission callback", Toast.LENGTH_SHORT).show();
-                if (grantResults.length > 0  &&  grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    imageFlashlight.setEnabled(true);
-                } else {
-                    Toast.makeText(this, "Permission Denied for the Camera", Toast.LENGTH_SHORT).show();
-                }
-                break;
-        }
-    }
-
 
     public static ToTextActivity getContext() {
         return mContext;

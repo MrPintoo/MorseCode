@@ -38,6 +38,7 @@
         <activity android:name=".ToTextActivity" />
         <activity android:name=".MainAudioTranslation" />
         <activity android:name=".LightSensor" />
+        <activity android:name=".MorseToWhat" />
     </application>
 
 </manifest>

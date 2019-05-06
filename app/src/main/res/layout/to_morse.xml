@@ -5,139 +5,170 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bluegrey" >
-
+    android:background="@drawable/grey_background" >
 
 
     <TextView
         android:id="@+id/converted_text"
-        android:layout_width="347dp"
-        android:layout_height="71dp"
+        android:layout_width="324dp"
+        android:layout_height="94dp"
         android:layout_marginBottom="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginLeft="1dp"
         android:layout_marginRight="1dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
-        android:hint="Output..."
-        android:textSize="50dp"
+        android:elevation="2dp"
         android:gravity="center_horizontal"
+        android:hint="Output"
+        android:fontFamily="@font/computer"
+        android:textColor="#ffffff"
+        android:textSize="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.39" />
+        app:layout_constraintVertical_bias="0.38" />
+
+    <!--<TextView-->
+        <!--android:layout_width="354dp"-->
+        <!--android:layout_height="209dp"-->
+        <!--android:background="#ffff"-->
+        <!--tools:layout_editor_absoluteX="15dp"-->
+        <!--tools:layout_editor_absoluteY="0dp" />-->
+
+    <!--<TextView-->
+        <!--android:layout_width="372dp"-->
+        <!--android:layout_height="345dp"-->
+        <!--android:background="@drawable/grey_background"-->
+        <!--tools:layout_editor_absoluteX="6dp"-->
+        <!--tools:layout_editor_absoluteY="215dp" />-->
 
     <EditText
         android:id="@+id/input_editText"
-        android:layout_width="342dp"
-        android:layout_height="144dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_width="335dp"
+        android:layout_height="97dp"
         android:layout_marginBottom="8dp"
-        android:hint="Enter Text:"
-        android:textSize="50dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#ffff"
         android:gravity="center_horizontal"
+        android:hint="Enter Text:"
+        android:fontFamily="@font/computer"
+        android:textColor="#ffffff"
+        android:textSize="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.358"
+        app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.12" />
+        app:layout_constraintVertical_bias="0.017" />
 
     <Button
         android:id="@+id/sound_btn"
-        android:layout_width="85dp"
-        android:layout_height="83dp"
+        android:layout_width="144dp"
+        android:layout_height="53dp"
         android:layout_marginBottom="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginLeft="1dp"
         android:layout_marginRight="1dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
-        android:background="@drawable/wave"
-        android:textColor="@color/colorPrimaryDark"
+        android:background="@drawable/roundbutton"
+        android:backgroundTint="#9d8e1c"
+        android:fontFamily="@font/computer"
+        android:text="To Sound"
+        android:textColor="#ffff"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.084"
+        app:layout_constraintHorizontal_bias="0.936"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.764" />
+        app:layout_constraintVertical_bias="0.847" />
 
     <Button
         android:id="@+id/light_btn"
-        android:layout_width="97dp"
-        android:layout_height="84dp"
+        android:layout_width="144dp"
+        android:layout_height="54dp"
         android:layout_marginBottom="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginLeft="1dp"
         android:layout_marginRight="1dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
-        android:background="@drawable/flashlight"
-        android:textColor="@color/colorPrimaryDark"
+        android:background="@drawable/roundbutton"
+        android:backgroundTint="#9d8e1c"
+        android:fontFamily="@font/computer"
+        android:text="To Flash"
+        android:textColor="#ffff"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.937" />
+        app:layout_constraintVertical_bias="0.97" />
 
     <Button
         android:id="@+id/vibrate_btn"
-        android:layout_width="75dp"
-        android:layout_height="70dp"
+        android:layout_width="150dp"
+        android:layout_height="53dp"
         android:layout_marginBottom="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginLeft="1dp"
         android:layout_marginRight="1dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="1dp"
-        android:background="@drawable/vibrate"
-        android:textColor="@color/colorPrimaryDark"
+        android:background="@drawable/roundbutton"
+        android:backgroundTint="#9d8e1c"
+        android:fontFamily="@font/computer"
+        android:text="To Vibrate"
+        android:textColor="#ffff"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.859"
+        app:layout_constraintHorizontal_bias="0.064"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.761" />
+        app:layout_constraintVertical_bias="0.847" />
+
 
     <Button
         android:id="@+id/toMorse"
-        android:layout_width="130dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginLeft="1dp"
-        android:layout_marginTop="1dp"
+        android:layout_width="169dp"
+        android:layout_height="43dp"
         android:layout_marginBottom="1dp"
-        android:background="@drawable/greenbutton"
+        android:layout_marginLeft="1dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:background="@drawable/roundbutton"
+        android:backgroundTint="#9f6dce"
+        android:fontFamily="@font/computer"
         android:text="Convert"
+        android:textColor="#ffff"
+        android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.745" />
+        app:layout_constraintVertical_bias="0.214" />
+
 
 
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/index"
-        android:layout_width="55dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_width="41dp"
+        android:layout_height="42dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -187,14 +218,13 @@
         <!--app:layout_constraintTop_toTopOf="parent"-->
         <!--app:layout_constraintVertical_bias="0.017" />-->
 
-
-    <!--<ImageView-->
-        <!--android:id="@+id/imageView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:src="@drawable/indexx2"-->
-        <!--android:adjustViewBounds="true"-->
-        <!--android:elevation="2dp"-->
-        <!--/>-->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/indexx2"
+        android:adjustViewBounds="true"
+        android:elevation="2dp"
+        />
 
 </android.support.constraint.ConstraintLayout>

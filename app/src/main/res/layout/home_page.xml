@@ -4,28 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#CDD3D6">
+    android:background="@drawable/grey_background">
 
     <Button
         android:id="@+id/to_morse_button"
         android:layout_width="175dp"
-        android:layout_height="54dp"
+        android:layout_height="52dp"
         android:layout_marginBottom="60dp"
         android:layout_marginEnd="1dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="1dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/seaside"
-        android:text="Morse"
-        android:textSize="25sp"
         android:background="@drawable/roundbutton"
+        android:backgroundTint="#9d8e1c"
+        android:fontFamily="@font/computer"
+        android:text="Morse"
+        android:textColor="#ffff"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.851"
         app:layout_constraintStart_toEndOf="@+id/to_text_button"
         app:layout_constraintTop_toBottomOf="@+id/simpleTextView"
         app:layout_constraintVertical_bias="0.0" />
+
 
     <Button
         android:id="@+id/to_text_button"
@@ -35,55 +38,105 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:fontFamily="@font/seaside"
+        android:fontFamily="@font/computer"
+        android:textColor="#ffff"
         android:text="Text"
         android:background="@drawable/roundbutton"
+        android:backgroundTint="#9d8e1c"
         android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/simpleTextView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        />
 
     <TextView
         android:id="@+id/simpleTextView"
-        android:layout_width="143dp"
-        android:layout_height="53dp"
+        android:layout_width="220dp"
+        android:layout_height="41dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:font="@font/josefin_bold"
+        android:fontFamily="@font/computer"
         android:gravity="center_horizontal"
         android:text="Translate to:"
-        android:textColor="#000000"
-        android:textSize="25dp"
+        android:textColor="#ffff"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/to_morse_button"
-        app:layout_constraintHorizontal_bias="0.468"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toEndOf="@+id/to_text_button"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.732" />
+        app:layout_constraintVertical_bias="0.753" />
+
+
+    <TextView
+        android:id="@+id/best_source"
+        android:layout_width="348dp"
+        android:layout_height="31dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:elevation="2dp"
+        android:fontFamily="@font/computer"
+
+        android:gravity="center_horizontal"
+        android:text="The best source to get morse"
+        android:textColor="#ffff"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.382" />
+
+    <TextView
+        android:id="@+id/morse_translator"
+        android:layout_width="347dp"
+        android:layout_height="142dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:elevation="2dp"
+        android:fontFamily="@font/computer"
+        android:gravity="center_horizontal"
+        android:text="Morse Translator"
+        android:textColor="#9f6dce"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.173" />
 
 
     <ImageView
         android:id="@+id/appicon"
-        android:layout_width="363dp"
-        android:layout_height="344dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="245dp"
+        android:layout_height="260dp"
+        android:layout_marginBottom="84dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:src="@drawable/logo"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:adjustViewBounds="false"
         app:layout_constraintBottom_toTopOf="@+id/to_text_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.38" />
-
+        app:layout_constraintVertical_bias="0.413" />
 
 
 </android.support.constraint.ConstraintLayout>
