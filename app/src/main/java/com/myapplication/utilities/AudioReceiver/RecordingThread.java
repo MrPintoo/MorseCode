@@ -123,16 +123,16 @@ public class RecordingThread {
                 avg += Math.abs(audioBuffer[i]);
 
             avg = avg /audioBuffer.length;
-            main.setFreqValue(String.valueOf(avg));
+//            main.setFreqValue(String.valueOf(avg));
 
             /********************************************************/
             /** After calibration, begin listening for frequencies **/
 
-            if((calibratingStopWatch.getElapsedTime() - waitTime) > 10000)
+            if(stopWatch.getElapsedTime() > 3000)
                 stopTime = 3000;
 
             // If it is too quiet for longer than 5 seconds, quit.
-            if(stopTime > 2000 && avg < threshold && (calibratingStopWatch.getElapsedTime() - waitTime) > 10000 ) {
+            if(stopTime > 2000 && avg < threshold && stopWatch.getElapsedTime() > 5000 ) {
                 stopWatch.stop();
                 break;
             }

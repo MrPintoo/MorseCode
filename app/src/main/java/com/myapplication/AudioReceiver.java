@@ -108,7 +108,7 @@ public class AudioReceiver extends AppCompatActivity {
         });
 
         /** Record Button **/
-        avgFreq = (TextView) findViewById(R.id.avgFreq);
+//        avgFreq = (TextView) findViewById(R.id.avgFreq);
         morseTextView = (TextView) findViewById(R.id.morseCode);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -124,14 +124,14 @@ public class AudioReceiver extends AppCompatActivity {
         });
     }
 
-    public void setFreqValue(final String value) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                avgFreq.setText(String.valueOf(value));
-            }
-        });
-    }
+//    public void setFreqValue(final String value) {
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                avgFreq.setText(String.valueOf(value));
+//            }
+//        });
+//    }
 
     public void setMorseValue(final String value) {
         runOnUiThread(new Runnable() {
