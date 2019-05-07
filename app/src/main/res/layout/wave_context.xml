@@ -9,8 +9,9 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
+    android:background="@drawable/grey_background"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MainAudioTranslation"
+    tools:context=".AudioReceiver"
     tools:showIn="@layout/wave_form">
 
     <com.myapplication.WaveformView
@@ -25,20 +26,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Avg Frequency Level Per Audio Buffer:"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:textColor="#ffff"/>
 
     <TextView
         android:id="@+id/avgFreq"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
-        android:textSize="30dp" />
+        android:textSize="30dp"
+        android:textColor="#ffff"/>
 
     <TextView
         android:id="@+id/morseCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
+        android:hint="Morse Output"
+        android:textColorHint="#ffff"
+        android:textColor="#ffff"
         android:textSize="30dp" />
 
     <!--<com.myapplication.WaveformView-->

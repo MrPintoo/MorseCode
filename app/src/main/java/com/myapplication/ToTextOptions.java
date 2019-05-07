@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class MorseToWhat extends AppCompatActivity {
+public class ToTextOptions extends AppCompatActivity {
 
     private Button toSound;
     private Button imageFlashlight;
@@ -20,13 +20,13 @@ public class MorseToWhat extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.morsetowhat);
+        setContentView(R.layout.to_text_options);
 
         morseToText = (Button) findViewById(R.id.morseToText);
         morseToText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MorseToWhat.this, ToTextActivity.class);
+                Intent intent = new Intent(ToTextOptions.this, ToTextActivity.class);
                 startActivity(intent);
             }
         });
@@ -35,7 +35,7 @@ public class MorseToWhat extends AppCompatActivity {
         imageFlashlight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MorseToWhat.this, LightSensor.class);
+                Intent intent = new Intent(ToTextOptions.this, LightSensor.class);
                 startActivity(intent);
             }
         });
@@ -44,7 +44,7 @@ public class MorseToWhat extends AppCompatActivity {
         toSound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MorseToWhat.this, MainAudioTranslation.class);
+                Intent intent = new Intent(ToTextOptions.this, AudioReceiver.class);
                 startActivity(intent);
             }
         });

@@ -36,9 +36,9 @@
         </activity>
         <activity android:name=".ToMorseActivity" />
         <activity android:name=".ToTextActivity" />
-        <activity android:name=".MainAudioTranslation" />
+        <activity android:name=".AudioReceiver" />
         <activity android:name=".LightSensor" />
-        <activity android:name=".MorseToWhat" />
+        <activity android:name=".ToTextOptions" />
     </application>
 
 </manifest>

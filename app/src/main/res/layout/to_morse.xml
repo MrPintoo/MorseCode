@@ -218,13 +218,13 @@
         <!--app:layout_constraintTop_toTopOf="parent"-->
         <!--app:layout_constraintVertical_bias="0.017" />-->
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/indexx2"
-        android:adjustViewBounds="true"
-        android:elevation="2dp"
-        />
+    <!--<ImageView-->
+        <!--android:id="@+id/imageView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:src="@drawable/indexx2"-->
+        <!--android:adjustViewBounds="true"-->
+        <!--android:elevation="2dp"-->
+        <!--/>-->
 
 </android.support.constraint.ConstraintLayout>

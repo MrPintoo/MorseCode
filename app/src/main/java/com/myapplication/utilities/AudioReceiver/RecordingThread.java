@@ -19,14 +19,14 @@ import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.util.Log;
 
-import com.myapplication.MainAudioTranslation;
+import com.myapplication.AudioReceiver;
 import com.myapplication.utilities.StopWatch;
 
 public class RecordingThread {
     private static final String LOG_TAG = RecordingThread.class.getSimpleName();
     private static final int SAMPLE_RATE = 44100;
 
-    private float threshold = 0;
+    private float threshold = 2500;
 
     public RecordingThread(AudioDataReceivedListener listener) {
         mListener = listener;
@@ -35,7 +35,7 @@ public class RecordingThread {
     private boolean mShouldContinue;
     private AudioDataReceivedListener mListener;
     private Thread mThread;
-    private MainAudioTranslation main = MainAudioTranslation.getContext();
+    private AudioReceiver main = AudioReceiver.getContext();
 
     public boolean recording() {
         return mThread != null;
@@ -101,14 +101,14 @@ public class RecordingThread {
         stopWatch.start();
         StopWatch calibratingStopWatch = new StopWatch();
         calibratingStopWatch.start();
-        int [] maxFreqArray = new int[bufferSize / 2];
-        int index = 0;
+//        int [] maxFreqArray = new int[bufferSize / 2];
+//        int index = 0;
 
         // Processing Variables
         boolean highFreqProcessing = false;
         boolean lowFreqProcessing = false;
         boolean hasStarted = false;
-        float waitTime;
+        float waitTime = 5000;
         float stopTime = 0;
         String morse = "";
 
@@ -127,94 +127,71 @@ public class RecordingThread {
 
             /********************************************************/
             /** After calibration, begin listening for frequencies **/
-            if(calibratingStopWatch.getElapsedTime() > 5000) {
-                waitTime = 5000;
 
-                if(! executed) {
-                    int calibrateAvg = 0;
-                    for (int i = 0; i < maxFreqArray.length; i++)
-                        calibrateAvg += maxFreqArray[i];
+            if((calibratingStopWatch.getElapsedTime() - waitTime) > 10000)
+                stopTime = 3000;
 
-                    threshold = calibrateAvg / maxFreqArray.length;
-                    executed = true;
-                    threshold = 2500;
-                }
+            // If it is too quiet for longer than 5 seconds, quit.
+            if(stopTime > 2000 && avg < threshold && (calibratingStopWatch.getElapsedTime() - waitTime) > 10000 ) {
+                stopWatch.stop();
+                break;
+            }
 
-                if((calibratingStopWatch.getElapsedTime() - waitTime) > 10000)
-                    stopTime = 3000;
-
-                // If it is too quiet for longer than 5 seconds, quit.
-                if(stopTime > 2000 && avg < threshold && (calibratingStopWatch.getElapsedTime() - waitTime) > 10000 ) {
+            /************************************************/
+            /** Calculates time that it is above threshold **/
+            else if (avg > threshold )  { // Timing of audio to determine morse characters.
+                if(hasStarted == false)
+                    hasStarted = true;
+                if(stopWatch.isRunning() == true && lowFreqProcessing == true){
                     stopWatch.stop();
-                    break;
+                    stopTime = stopWatch.getElapsedTime();
+
+                    if(stopTime < 900 && stopTime > 700) {
+                        morse += "/";
+                    }
+                    else if(stopTime < 700 && stopTime > 500) {
+                        morse += " ";
+                    }
+                    main.setMorseValue("space = " + String.valueOf(stopTime));
+
+                    lowFreqProcessing = false;
                 }
 
-                /************************************************/
-                /** Calculates time that it is above threshold **/
-                else if (avg > threshold )  { // Timing of audio to determine morse characters.
-                    if(hasStarted == false)
-                        hasStarted = true;
-                    if(stopWatch.isRunning() == true && lowFreqProcessing == true){
+                if(!highFreqProcessing) {
+                    stopWatch.start();
+                    stopWatch.setRunning(true);
+                    highFreqProcessing = true;
+                }
+            }
+            /************************************************/
+
+            /************************************************/
+            /** Calculates time that it is below threshold **/
+            else { // Timing of audio to determine morse characters.
+                if(hasStarted == true) {
+                    if (stopWatch.isRunning() == true && highFreqProcessing == true) {
                         stopWatch.stop();
+
                         stopTime = stopWatch.getElapsedTime();
-
-                        if(stopTime < 1650 && stopTime > 1450) {
-                            morse += "/";
+                        if (stopTime < 600 && stopTime > 400) {
+                            morse += "-";
+                        } else if (stopTime < 400 && stopTime > 50) {
+                            morse += ".";
                         }
-                        else if(stopTime < 400 && stopTime > 250) {
-                            morse += " ";
-                        }
-                        main.setMorseValue("space = " + String.valueOf(stopTime));
-
-                        lowFreqProcessing = false;
+                        highFreqProcessing = false;
                     }
 
-                    if(!highFreqProcessing) {
+                    if (!lowFreqProcessing) {
                         stopWatch.start();
                         stopWatch.setRunning(true);
-                        highFreqProcessing = true;
+                        lowFreqProcessing = true;
                     }
                 }
-                /************************************************/
 
-                /************************************************/
-                /** Calculates time that it is below threshold **/
-                else { // Timing of audio to determine morse characters.
-                    if(hasStarted == true) {
-                        if (stopWatch.isRunning() == true && highFreqProcessing == true) {
-                            stopWatch.stop();
-
-                            stopTime = stopWatch.getElapsedTime();
-                            if (stopTime < 600 && stopTime > 300) {
-                                morse += "-";
-                            } else if (stopTime < 250 && stopTime > 50) {
-                                morse += ".";
-                            }
-                            highFreqProcessing = false;
-                        }
-
-                        if (!lowFreqProcessing) {
-                            stopWatch.start();
-                            stopWatch.setRunning(true);
-                            lowFreqProcessing = true;
-                        }
-                    }
-
-                }
-                /************************************************/
-                main.setMorseValue(String.valueOf(threshold) + " " + String.valueOf(stopTime) + " morse = " + morse);
-
-
-            } else {
-                main.setFreqValue("Give 5 seconds for calibration...");
-                int calibrateAvgFrame = 0;
-                for(int i = 0; i < audioBuffer.length; i++)
-                    calibrateAvgFrame += Math.abs(audioBuffer[i]);
-                calibrateAvgFrame = calibrateAvgFrame / audioBuffer.length;
-
-                maxFreqArray[index] = calibrateAvgFrame;
-                index++;
             }
+            /************************************************/
+            main.setMorseValue(String.valueOf(threshold) + " " + String.valueOf(stopTime) + " morse = " + morse);
+
             // Notify waveform
             mListener.onAudioDataReceived(audioBuffer);
         }
@@ -222,6 +199,7 @@ public class RecordingThread {
 
         record.stop();
         record.release();
+        stopRecording();
 
         Log.v(LOG_TAG, String.format("Recording stopped. Samples read: %d", shortsRead));
     }

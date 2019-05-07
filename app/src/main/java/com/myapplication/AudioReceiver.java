@@ -35,7 +35,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 
-public class MainAudioTranslation extends AppCompatActivity {
+public class AudioReceiver extends AppCompatActivity {
 
     ConversionModel model = new ConversionModel();
 
@@ -43,7 +43,7 @@ public class MainAudioTranslation extends AppCompatActivity {
     private TextView morseTextView;
     private WaveformView mRealtimeWaveformView;
     private RecordingThread mRecordingThread;
-    private static MainAudioTranslation mContext;
+    private static AudioReceiver mContext;
 
     // private PlaybackThread mPlaybackThread;
     private static final int REQUEST_RECORD_AUDIO = 13;
@@ -155,7 +155,7 @@ public class MainAudioTranslation extends AppCompatActivity {
         task.execute(model.getInput(), model.getMorseToTextURL());
     }
 
-    public static MainAudioTranslation getContext() {
+    public static AudioReceiver getContext() {
         return mContext;
     }
 
@@ -166,8 +166,7 @@ public class MainAudioTranslation extends AppCompatActivity {
     }
 
     private void startAudioRecordingSafe() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO)
-                == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
             mRecordingThread.startRecording();
         } else {
             requestMicrophonePermission();
@@ -181,20 +180,20 @@ public class MainAudioTranslation extends AppCompatActivity {
                     Snackbar.LENGTH_INDEFINITE).setAction("OK", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ActivityCompat.requestPermissions(MainAudioTranslation.this, new String[]{
+                    ActivityCompat.requestPermissions(AudioReceiver.this, new String[]{
                             android.Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO);
                 }
             }).show();
         } else {
-            ActivityCompat.requestPermissions(MainAudioTranslation.this, new String[]{
+            ActivityCompat.requestPermissions(AudioReceiver.this, new String[] {
                     android.Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO);
         }
+        mRecordingThread.startRecording();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_RECORD_AUDIO && grantResults.length > 0 &&
-                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == REQUEST_RECORD_AUDIO && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             mRecordingThread.stopRecording();
         }
     }
