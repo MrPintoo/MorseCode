@@ -180,27 +180,25 @@ public class ToMorseActivity extends AppCompatActivity {
                 task.execute(model.getInput(), model.getTextToMorseURL());
             }
         });
-//        index = (FloatingActionButton) findViewById(R.id.index);
-//        imageView = (ImageView)findViewById(R.id.imageView);
-//        imageView.setVisibility(View.INVISIBLE);
-//        index.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (isVisible == false) {
-//                    imageView.setVisibility(View.VISIBLE);
-//                    isVisible = true;
-//                }
-//                else {
-//                    imageView.setVisibility(View.INVISIBLE);
-//                    isVisible = false;
-//                }
-//            }
-//        });
 
+        index = (FloatingActionButton) findViewById(R.id.index);
+        imageView = (ImageView)findViewById(R.id.imageView);
+        imageView.setVisibility(View.INVISIBLE);
+        index.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isVisible == false) {
+                    imageView.setVisibility(View.VISIBLE);
+                    isVisible = true;
+                }
+                else {
+                    imageView.setVisibility(View.INVISIBLE);
+                    isVisible = false;
+                }
+            }
+        });
 
     }
-
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -214,6 +212,5 @@ public class ToMorseActivity extends AppCompatActivity {
                 break;
         }
     }
-
 
 }

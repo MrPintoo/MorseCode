@@ -170,22 +170,22 @@ public class ToTextActivity extends AppCompatActivity {
             }
         });
 
-//        index = (FloatingActionButton) findViewById(R.id.index);
-//        imageView = (ImageView)findViewById(R.id.imageView);
-//        imageView.setVisibility(View.INVISIBLE);
-//        index.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (isVisible == false) {
-//                    imageView.setVisibility(View.VISIBLE);
-//                    isVisible = true;
-//                }
-//                else {
-//                    imageView.setVisibility(View.INVISIBLE);
-//                    isVisible = false;
-//                }
-//            }
-//        });
+        index = (FloatingActionButton) findViewById(R.id.index);
+        imageView = (ImageView)findViewById(R.id.imageView);
+        imageView.setVisibility(View.INVISIBLE);
+        index.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isVisible) {
+                    imageView.setVisibility(View.VISIBLE);
+                    isVisible = true;
+                }
+                else {
+                    imageView.setVisibility(View.INVISIBLE);
+                    isVisible = false;
+                }
+            }
+        });
         /*********************************************************************************/
 
     }

@@ -22,7 +22,7 @@
         android:fontFamily="@font/computer"
         android:text="Translate\nTo Text"
         android:textAlignment="center"
-        android:textColor="#9f6dce"
+        android:textColor="#82A7A6"
         android:textSize="45dp"
         app:layout_constraintBottom_toTopOf="@+id/morseToText"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +42,7 @@
         android:layout_marginStart="1dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/roundbutton"
-        android:backgroundTint="#9d8e1c"
+        android:backgroundTint="#785964"
         android:fontFamily="@font/computer"
         android:text="From Morse"
         android:textColor="#ffff"
@@ -65,7 +65,7 @@
         android:layout_marginStart="1dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/roundbutton"
-        android:backgroundTint="#9d8e1c"
+        android:backgroundTint="#785964"
         android:fontFamily="@font/computer"
         android:text="From Sound"
         android:textColor="#ffff"
@@ -80,15 +80,15 @@
     <Button
         android:id="@+id/light_btn"
         android:layout_width="157dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginLeft="1dp"
-        android:layout_marginRight="1dp"
+        android:layout_height="49dp"
         android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/roundbutton"
-        android:backgroundTint="#9d8e1c"
+        android:backgroundTint="#785964"
         android:fontFamily="@font/computer"
         android:text="From Light"
         android:textColor="#ffff"
@@ -99,5 +99,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/morseToText"
         app:layout_constraintVertical_bias="0.473" />
+
+    <!--<TextView-->
+        <!--android:id="@+id/appicon"-->
+        <!--android:layout_width="243dp"-->
+        <!--android:layout_height="254dp"-->
+        <!--android:background="@drawable/logo"-->
+        <!--tools:layout_editor_absoluteX="84dp"-->
+        <!--tools:layout_editor_absoluteY="86dp" />-->
 
 </android.support.constraint.ConstraintLayout>

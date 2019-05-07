@@ -17,7 +17,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/roundbutton"
-        android:backgroundTint="#9d8e1c"
+        android:backgroundTint="#785964"
         android:fontFamily="@font/computer"
         android:text="Morse"
         android:textColor="#ffff"
@@ -42,7 +42,7 @@
         android:textColor="#ffff"
         android:text="Text"
         android:background="@drawable/roundbutton"
-        android:backgroundTint="#9d8e1c"
+        android:backgroundTint="#785964"
         android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +85,6 @@
         android:layout_marginTop="8dp"
         android:elevation="2dp"
         android:fontFamily="@font/computer"
-
         android:gravity="center_horizontal"
         android:text="The best source to get morse"
         android:textColor="#ffff"
@@ -110,7 +109,7 @@
         android:fontFamily="@font/computer"
         android:gravity="center_horizontal"
         android:text="Morse Translator"
-        android:textColor="#9f6dce"
+        android:textColor="#82A7A6"
         android:textSize="50sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -119,24 +118,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.173" />
 
-
-    <ImageView
+    <TextView
         android:id="@+id/appicon"
-        android:layout_width="245dp"
-        android:layout_height="260dp"
-        android:layout_marginBottom="84dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_width="272dp"
+        android:layout_height="281dp"
         android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:adjustViewBounds="false"
-        app:layout_constraintBottom_toTopOf="@+id/to_text_button"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/logo_three"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.413" />
+        app:layout_constraintVertical_bias="0.138" />
+
 
 
 </android.support.constraint.ConstraintLayout>
