@@ -63,16 +63,14 @@
         android:fontFamily="@font/computer"
         android:gravity="center"
         android:hint="Keyboard Inputs:"
-        android:textAlignment="center"
         android:textColorHint="#ffffff"
         android:textSize="35dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/dash"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.015" />
-
+        app:layout_constraintVertical_bias="0.608" />
 
     <Button
         android:id="@+id/dot"
