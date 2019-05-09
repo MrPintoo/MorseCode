@@ -23,7 +23,7 @@
         android:textColor="#ffff"
         android:fontFamily="@font/computer"/>
 
-    <com.myapplication.WaveformView
+    <com.colordetect.WaveformView
         android:id="@+id/waveformView"
         android:layout_width="wrap_content"
         android:layout_height="296dp"
