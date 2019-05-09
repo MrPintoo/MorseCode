@@ -32,13 +32,12 @@
         app:mode="RECORDING" />
 
     <TextView
-        android:layout_width="380dp"
-        android:layout_height="wrap_content"
+        android:layout_width="344dp"
+        android:layout_height="36dp"
         android:fontFamily="@font/computer"
-        android:gravity="center"
         android:text="Morse Output:"
         android:textColor="#ffff"
-        android:textSize="35dp" />
+        android:textSize="15dp" />
 
     <!--<TextView-->
         <!--android:id="@+id/avgFreq"-->
@@ -50,9 +49,9 @@
 
     <TextView
         android:id="@+id/morseCode"
-        android:layout_width="378dp"
-        android:layout_height="268dp"
+        android:layout_width="344dp"
+        android:layout_height="95dp"
         android:textColor="#ffff"
-        android:textSize="30dp" />
+        android:textSize="15dp" />
 
 </LinearLayout>

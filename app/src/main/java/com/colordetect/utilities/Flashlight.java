@@ -12,23 +12,23 @@ public class Flashlight extends AppCompatActivity {
         for(int i = 0; i < morse.length(); i++){
             if(morse.charAt(i) == '.'){
                 flashLightOn(cameraManager);
-                delay(100);
+                delay(300);
                 flashLightOff(cameraManager);
-                delay(100);
+                delay(300);
             }
             else if (morse.charAt(i) == '-'){
                 flashLightOn(cameraManager);
-                delay(300);
+                delay(500);
                 flashLightOff(cameraManager);
-                delay(100);
+                delay(300);
             }
             else if (morse.charAt(i) == ' '){
                 flashLightOff(cameraManager);
-                delay(300);
+                delay(500);
             }
             else{
                 flashLightOff(cameraManager);
-                delay(700);
+                delay(800);
             }
         }
     }

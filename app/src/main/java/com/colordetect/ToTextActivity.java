@@ -171,7 +171,7 @@ public class ToTextActivity extends AppCompatActivity {
         index.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isVisible) {
+                if (!isVisible) {
                     imageView.setVisibility(View.VISIBLE);
                     isVisible = true;
                 }

@@ -146,10 +146,10 @@ public class RecordingThread {
                     stopWatch.stop();
                     stopTime = stopWatch.getElapsedTime();
 
-                    if(stopTime < 900 && stopTime > 700) {
+                    if(stopTime < 1300 && stopTime > 800) {
                         morse += "/";
                     }
-                    else if(stopTime < 700 && stopTime > 500) {
+                    else if(stopTime < 800 && stopTime > 400) {
                         morse += " ";
                     }
                     main.setMorseValue("space = " + String.valueOf(stopTime));
@@ -173,9 +173,9 @@ public class RecordingThread {
                         stopWatch.stop();
 
                         stopTime = stopWatch.getElapsedTime();
-                        if (stopTime < 600 && stopTime > 400) {
+                        if (stopTime < 800 && stopTime > 500) {
                             morse += "-";
-                        } else if (stopTime < 400 && stopTime > 50) {
+                        } else if (stopTime < 500 && stopTime > 50) {
                             morse += ".";
                         }
                         highFreqProcessing = false;

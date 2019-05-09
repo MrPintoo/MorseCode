@@ -21,7 +21,7 @@ public class WelcomeActivity extends AppCompatActivity {
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
+                
             }
 
             @Override
